@@ -25,5 +25,4 @@ replay_pid*
 /bin/
 .classpath
 .project
-.settings/org.eclipse.jdt.core.prefs
-.settings/org.eclipse.ltk.core.refactoring.prefs
+.settings/
