@@ -8,16 +8,12 @@ public class Game implements Runnable
 	private GamePanel gamePanel;
 	private Thread gameThread;
 	private final int FPS_SET = 120;
-	static int HEIGHT;
-	static int WIDTH;
 	
 	public Game() 
 	{
 		gamePanel = new GamePanel();
 		gameWindow = new GameWindow(gamePanel);
 		gamePanel.requestFocus();
-		HEIGHT = gameWindow.frame.getContentPane().getSize().height;
-		WIDTH = gameWindow.frame.getContentPane().getSize().width;
 		startGameLoop();
 	}
 	

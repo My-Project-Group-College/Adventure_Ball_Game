@@ -1,30 +1,62 @@
 package main;
 
-import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.Random;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import inputs.KeyboardInputs;
 import inputs.MouseInputs;
 
+/*
+ * TODO 
+ * Get Proper Image file and adjust accordingly
+ */
 public class GamePanel extends JPanel
 {
 	private MouseInputs mouseInputs;
 	private float xDelta = 100, yDelta = 100;
-	private float xDir = 1, yDir = 1;
-	private int frames = 0;
-	private long lastCheck = 0;
-	private Color color = new Color(150, 20, 90);
-	private Random random;
+	private Dimension size;
+	private BufferedImage img, subImg;
 
 	
 	public GamePanel() 
 	{
-		random = new Random();
 		mouseInputs = new MouseInputs(this);
+		
+		importImg();
+		
+		setPanelSize();
 		addKeyListener(new KeyboardInputs(this));
 		addMouseListener(mouseInputs);
 		addMouseMotionListener(mouseInputs);
+	}
+	
+	private void importImg()
+	{
+		InputStream inpStream = getClass().getResourceAsStream("/sprites/mainBall.png");
+		
+		try 
+		{
+			img = ImageIO.read(inpStream);
+		} 
+		catch (IOException e) 
+		{
+			System.out.println("Error While Loading Player Sprites");
+			e.printStackTrace();
+		}
+	}
+	
+	private void setPanelSize()
+	{
+		size = new Dimension(1280, 800);
+		//1 tile 32 x 32 pixels
+		//40 tiles width & 25 tiles height
+		setMinimumSize(size);
+		setPreferredSize(size);
+		setMaximumSize(size);
 	}
 	
 	public void addXDelta(int value)
@@ -44,33 +76,7 @@ public class GamePanel extends JPanel
 	{
 		super.paintComponent(g);
 		
-		updateRect();
-		g.setColor(color);
-		g.fillRect((int)xDelta, (int)yDelta, 200, 50);
-	}
-
-	private void updateRect() 
-	{
-		xDelta += xDir;
-		if((xDelta + 200) > Game.WIDTH || xDelta < 0)
-		{			
-			xDir *= -1;
-			color = getRndmColor();
-		}
-		yDelta += yDir;
-		if((yDelta + 50) > Game.HEIGHT - 3 || yDelta < 0)	//for some reason it has 3 extra pixels below bottom
-		{			
-			yDir *= -1;
-			color = getRndmColor();
-		}
-	}
-
-	private Color getRndmColor() 
-	{
-		int r = random.nextInt(255);
-		int g = random.nextInt(255);
-		int b = random.nextInt(255);
-		
-		return new Color(r,g,b);
+		subImg = img.getSubimage(0*64, 0*64, 64, 40);
+		g.drawImage(subImg, (int)xDelta, (int)yDelta, 128, 80, null);
 	}
 }
