@@ -12,10 +12,6 @@ import inputs.MouseInputs;
 import static utilities.Constants.PlayerConstants.*;
 import static utilities.Constants.Directions.*;
 
-/*
- * TODO 
- * Get Proper Image file and adjust accordingly
- */
 public class GamePanel extends JPanel
 {
 	private MouseInputs mouseInputs;
@@ -44,12 +40,12 @@ public class GamePanel extends JPanel
 	
 	private void loadAnimations()
 	{
-		animations = new BufferedImage[7][1];// here
+		animations = new BufferedImage[8][8];
 		for(int i = 0; i < animations.length; i++)
 		{
 			for (int j = 0; j < animations[i].length; j++)
 			{
-				animations[i][j] = img.getSubimage(0 * 64, 0 * 64, 64, 64); // here
+				animations[i][j] = img.getSubimage(j * 64, i * 64, 64, 64); 
 			}
 		}
 		
@@ -57,7 +53,7 @@ public class GamePanel extends JPanel
 	
 	private void importImg()
 	{
-		InputStream inpStream = getClass().getResourceAsStream("/sprites/mainBall.png");
+		InputStream inpStream = getClass().getResourceAsStream("/sprites/playerSprite.png");
 		
 		try 
 		{
@@ -153,6 +149,6 @@ public class GamePanel extends JPanel
 		setAnimation();
 		updatePosition();
 		
-		g.drawImage(animations[playerAction][animIndex], (int)xDelta, (int)yDelta, 256, 160, null);
+		g.drawImage(animations[playerAction][animIndex], (int)xDelta, (int)yDelta, 160, 160, null);
 	}
 }
