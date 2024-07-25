@@ -20,12 +20,14 @@ public class Constants
 		public static final int HIT = 5;
 		public static final int ATTACK = 6;
 		public static final int DASH = 7;
+		public static final int RUNNING_REVERSE = 8;	
 		
 		public static int GetSpriteAmount(int player_action)
 		{
 			switch(player_action)
 			{
 			case RUNNING: 
+			case RUNNING_REVERSE: 
 				return 8;
 			case JUMP:
 				return 3;
