@@ -5,22 +5,29 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
+
+import utilities.LoadSave;
 import static utilities.Constants.Directions.*;
 import static utilities.Constants.PlayerConstants.*;
+import main.Game;
 
 public class Player extends Entity
 {
 	private BufferedImage[][] animations;
-	private int animTick, animIndex, animSpeed = 20;
+	private int animTick, animIndex, animSpeed = 25;
 	private int playerAction = IDLE;
 	private boolean moving = false, attacking = false;
 	private boolean left, up, right, down;
-	private float playerSpeed = 2.0f;
+	private float playerSpeed = 1.75f;
 	private int runningDirection = RIGHT;
 	
-	public Player(float x, float y) 
+	public static final int PLAYER_WIDTH = (int) (Game.TILES_SIZE * 1.72);
+	public static final int PLAYER_HEIGHT= (int) (Game.TILES_SIZE * 1.72);
+	
+	
+	public Player(float x, float y, int width, int height) 
 	{
-		super(x, y);
+		super(x, y, width, height);
 		loadAnimations();
 	}
 	
@@ -33,7 +40,7 @@ public class Player extends Entity
 	
 	public void render(Graphics g)
 	{
-		g.drawImage(animations[playerAction][animIndex], (int)x, (int)y, 160, 160, null);
+		g.drawImage(animations[playerAction][animIndex], (int)x, (int)y, PLAYER_WIDTH, PLAYER_HEIGHT, null);
 	}
 	
 	private void updateAnimationTick() 
@@ -104,7 +111,7 @@ public class Player extends Entity
 			y -= playerSpeed;
 			moving = true;
 		}
-		else if(!up && down)
+		else if(down && !up)
 		{
 			y += playerSpeed;
 			moving = true;
@@ -113,11 +120,7 @@ public class Player extends Entity
 	
 	private void loadAnimations() 
 	{
-		InputStream inpStream = getClass().getResourceAsStream("/sprites/playerSprite.png");
-		
-		try 
-		{
-			BufferedImage img = ImageIO.read(inpStream);
+			BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
 			
 			
 			animations = new BufferedImage[9][8];
@@ -126,32 +129,13 @@ public class Player extends Entity
 				for (int j = 0; j < animations[i].length; j++)
 				{
 					if(i != RUNNING_REVERSE)
-						animations[i][j] = img.getSubimage(j * 64, i * 64, 64, 64); 						
+						animations[i][j] = img.getSubimage(j * 64, i * 64, 64, 64);
 				}
 			}
 			for(int i = 0; i < animations[RUNNING_REVERSE].length; i++)
 			{
 				animations[RUNNING_REVERSE][i] = animations[RUNNING][GetSpriteAmount(RUNNING) - 1 - i]; 
 			}
-		} 
-		catch (IOException e) 
-		{
-			System.out.println("Error While Loading Player Sprites");
-			e.printStackTrace();
-		}
-		finally
-		{
-			try 
-			{
-				inpStream.close();
-			} 
-			catch (IOException e) 
-			{
-				System.out.println("Error While Closing Input Stream");
-				e.printStackTrace();
-			}
-		}
-		
 	}
 
 	public void resetDirBooleans() 
