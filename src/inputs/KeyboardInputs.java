@@ -27,19 +27,19 @@ public class KeyboardInputs implements KeyListener
 		{
 		case KeyEvent.VK_W:
 			gamePanel.getGame().getPlayer().setUp(true);
-			gamePanel.getGame().getPlayer().RunningDir(right);
+			gamePanel.getGame().getPlayer().setRunningDir(right);
 			break;
 		case KeyEvent.VK_A:
 			gamePanel.getGame().getPlayer().setLeft(true);
-			gamePanel.getGame().getPlayer().RunningDir(left);
+			gamePanel.getGame().getPlayer().setRunningDir(left);
 			break;
 		case KeyEvent.VK_S:
 			gamePanel.getGame().getPlayer().setDown(true);
-			gamePanel.getGame().getPlayer().RunningDir(left);
+			gamePanel.getGame().getPlayer().setRunningDir(left);
 			break;
 		case KeyEvent.VK_D:		
 			gamePanel.getGame().getPlayer().setRight(true);
-			gamePanel.getGame().getPlayer().RunningDir(right);
+			gamePanel.getGame().getPlayer().setRunningDir(right);
 			break;
 		}
 	}
