@@ -2,6 +2,7 @@ package inputs;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
 import main.GamePanel;
 
 public class KeyboardInputs implements KeyListener
@@ -17,7 +18,6 @@ public class KeyboardInputs implements KeyListener
 	@Override
 	public void keyTyped(KeyEvent e) 
 	{
-		
 	}
 
 	@Override
@@ -41,6 +41,9 @@ public class KeyboardInputs implements KeyListener
 			gamePanel.getGame().getPlayer().setRight(true);
 			gamePanel.getGame().getPlayer().setRunningDir(right);
 			break;
+		case KeyEvent.VK_SPACE:
+			gamePanel.getGame().getPlayer().setJump(true);
+			break;
 		}
 	}
 
@@ -60,6 +63,9 @@ public class KeyboardInputs implements KeyListener
 			break;
 		case KeyEvent.VK_D:		
 			gamePanel.getGame().getPlayer().setRight(false);
+			break;
+		case KeyEvent.VK_SPACE:
+			gamePanel.getGame().getPlayer().setJump(false);
 			break;
 		}
 		
