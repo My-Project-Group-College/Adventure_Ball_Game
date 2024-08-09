@@ -13,12 +13,12 @@ import utilities.LoadSave;
 public class Player extends Entity
 {
 	private BufferedImage[][] animations;
-	private int animTick, animIndex, animSpeed = 25;
+	private int animTick, animIndex, animSpeed = 20;
 	private int playerAction = IDLE;
-	private boolean moving = false, attacking = false;
+	private boolean moving = false, attacking = false, dashing=false;//
 	private boolean left, up, right, down, jump;
 	private float playerSpeed = 2f;
-	private int runningDirection = RIGHT;
+	private int runningDirection = RIGHT , dashingdirection = RIGHT;//
 	private int[][]lvlData;
 	private float xDrawOffset = 6.25f * Game.SCALE;
 	private float yDrawOffset = 10.5f * Game.SCALE;
@@ -72,7 +72,11 @@ public class Player extends Entity
 	{
 		this.runningDirection = runningDirection;
 	}
-
+////
+//	public void setDashingDir(int dashingDirection) {
+//		this.dashingdirection=dashingDirection;
+//	}
+//	//
 	public void setAnimation()
 	{
 		int startAnim = playerAction;
