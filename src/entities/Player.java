@@ -20,8 +20,8 @@ public class Player extends Entity
 	private float playerSpeed = 2f;
 	private int runningDirection = RIGHT;
 	private int[][]lvlData;
-	private float xDrawOffset = 6 * Game.SCALE;
-	private float yDrawOffset = 10 * Game.SCALE;
+	private float xDrawOffset = 6.25f * Game.SCALE;
+	private float yDrawOffset = 10.5f * Game.SCALE;
 	
 	private float airSpeed = 0f;
 	private float gravity = 0.04f * Game.SCALE;
@@ -29,15 +29,15 @@ public class Player extends Entity
 	private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
 	private boolean inAir = false;
 	
-	public static final int PLAYER_WIDTH = (int) (Game.TILES_SIZE * 1.72);
-	public static final int PLAYER_HEIGHT= (int) (Game.TILES_SIZE * 1.72);
+	public static final int PLAYER_WIDTH = (int) (Game.TILES_SIZE * 1.35);
+	public static final int PLAYER_HEIGHT= (int) (Game.TILES_SIZE * 1.35);
 	
 	
 	public Player(float x, float y, int width, int height) 
 	{
 		super(x, y, width, height);
 		loadAnimations();
-		initHitbox(x, y, 42 * Game.SCALE, 40 * Game.SCALE);
+		initHitbox(x, y, 29 * Game.SCALE, 29 * Game.SCALE);
 	}
 	
 	public void update()
@@ -114,6 +114,7 @@ public class Player extends Entity
 
 		moving = false;
 		
+		if(jump) jump();
 		if(!left && !right && !inAir) return;
 		
 		float xSpeed = 0;
