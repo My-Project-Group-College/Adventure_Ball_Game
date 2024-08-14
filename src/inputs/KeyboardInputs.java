@@ -3,11 +3,11 @@ package inputs;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import gamestates.GameState;
 import main.GamePanel;
 
 public class KeyboardInputs implements KeyListener
 {
-	private int left = 0, right = 2;
 	private GamePanel gamePanel;
 	public KeyboardInputs(GamePanel gamePanel) 
 	{
@@ -16,63 +16,38 @@ public class KeyboardInputs implements KeyListener
 	
 	
 	@Override
-	public void keyTyped(KeyEvent e) 
+	public void keyTyped(KeyEvent e) {}
+
+	@Override
+	public void keyReleased(KeyEvent e) 
 	{
+		switch(GameState.state)
+		{
+		case MENU:
+			gamePanel.getGame().getMenu().keyReleased(e);
+			break;
+		case PLAYING:
+			gamePanel.getGame().getPlaying().keyReleased(e);
+			break;
+		default:
+			break;
+		}
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) 
 	{
-		switch(e.getKeyCode())
+		switch(GameState.state)
 		{
-		case KeyEvent.VK_W:
-			gamePanel.getGame().getPlayer().setJump(true);
-//			gamePanel.getGame().getPlayer().setUp(true);
-//			gamePanel.getGame().getPlayer().setRunningDir(right);
+		case MENU:
+			gamePanel.getGame().getMenu().keyPressed(e);
 			break;
-		case KeyEvent.VK_A:
-			gamePanel.getGame().getPlayer().setLeft(true);
-			gamePanel.getGame().getPlayer().setRunningDir(left);
+		case PLAYING:
+			gamePanel.getGame().getPlaying().keyPressed(e);
 			break;
-		case KeyEvent.VK_S:
-			gamePanel.getGame().getPlayer().setDown(true);
-			gamePanel.getGame().getPlayer().setRunningDir(left);
+		default:
 			break;
-		case KeyEvent.VK_D:		
-			gamePanel.getGame().getPlayer().setRight(true);
-			gamePanel.getGame().getPlayer().setRunningDir(right);
-			break;
-//		case KeyEvent.VK_SPACE:
-//			gamePanel.getGame().getPlayer().setJump(true);
-//			break;
 		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) 
-	{
-		switch(e.getKeyCode())
-		{
-		case KeyEvent.VK_W:
-			gamePanel.getGame().getPlayer().setJump(false);
-//			gamePanel.getGame().getPlayer().setUp(false);
-			break;
-		case KeyEvent.VK_A:
-			gamePanel.getGame().getPlayer().setLeft(false);
-			break;
-		case KeyEvent.VK_S:
-			gamePanel.getGame().getPlayer().setDown(false);
-			break;
-		case KeyEvent.VK_D:		
-			gamePanel.getGame().getPlayer().setRight(false);
-			break;
-//		case KeyEvent.VK_SPACE:
-//			gamePanel.getGame().getPlayer().setJump(false);
-//			break;
-//		case KeyEvent.VK_SHIFT:
-//			gamePanel.getGame().getPlayer().setDash(false);
-		}
-		
 	}
 
 }

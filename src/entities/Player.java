@@ -15,7 +15,7 @@ public class Player extends Entity
 	private BufferedImage[][] animations;
 	private int animTick, animIndex, animSpeed = 20;
 	private int playerAction = IDLE;
-	private boolean moving = false, attacking = false, dashing=false;//
+	private boolean moving = false, attacking = false, dashing = false;//
 	private boolean left, up, right, down, jump;
 	private float playerSpeed = 2f;
 	private int runningDirection = RIGHT , dashingdirection = RIGHT;//
@@ -72,11 +72,11 @@ public class Player extends Entity
 	{
 		this.runningDirection = runningDirection;
 	}
-////
+
 //	public void setDashingDir(int dashingDirection) {
 //		this.dashingdirection=dashingDirection;
 //	}
-//	//
+
 	public void setAnimation()
 	{
 		int startAnim = playerAction;
