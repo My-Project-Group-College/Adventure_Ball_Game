@@ -78,11 +78,9 @@ public class Playing extends State implements StateMethods
 			break;
 		case KeyEvent.VK_A:
 			player.setLeft(true);
-			player.setRunningDir(left);
 			break;
 		case KeyEvent.VK_D:		
 			player.setRight(true);
-			player.setRunningDir(right);
 			break;
 		case KeyEvent.VK_BACK_SPACE:
 			GameState.state = GameState.MENU;

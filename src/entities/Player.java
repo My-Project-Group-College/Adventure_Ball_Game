@@ -17,8 +17,8 @@ public class Player extends Entity
 	private int playerAction = IDLE;
 	private boolean moving = false, attacking = false, dashing = false;//
 	private boolean left, up, right, down, jump;
-	private float playerSpeed = 2f;
-	private int runningDirection = RIGHT , dashingdirection = RIGHT;//
+	private float playerSpeed = 2f * Game.SCALE;
+	private int dashingdirection = RIGHT;//
 	private int[][]lvlData;
 	private float xDrawOffset = 6.25f * Game.SCALE;
 	private float yDrawOffset = 10.5f * Game.SCALE;
@@ -37,7 +37,7 @@ public class Player extends Entity
 	{
 		super(x, y, width, height);
 		loadAnimations();
-		initHitbox(x, y, 29 * Game.SCALE, 29 * Game.SCALE);
+		initHitbox(x, y, (int)(29 * Game.SCALE), (int)(29 * Game.SCALE));
 	}
 	
 	public void update()
@@ -68,11 +68,6 @@ public class Player extends Entity
 		}
 	}
 	
-	public void setRunningDir(int runningDirection)
-	{
-		this.runningDirection = runningDirection;
-	}
-
 //	public void setDashingDir(int dashingDirection) {
 //		this.dashingdirection=dashingDirection;
 //	}
@@ -84,10 +79,12 @@ public class Player extends Entity
 		
 		if(moving)
 		{
-			if(runningDirection == RIGHT)
+			if(right && !left)
 				playerAction = RUNNING;
-			else if(runningDirection == LEFT)
+			else if(left && !right)
 				playerAction = RUNNING_REVERSE;
+			else
+				playerAction = IDLE;
 		}
 		else
 			playerAction = IDLE;
