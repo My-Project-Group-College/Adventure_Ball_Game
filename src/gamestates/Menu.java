@@ -12,7 +12,7 @@ import static utilities.Constants.UI.Buttons.*;
 
 public class Menu extends State implements StateMethods
 {
-	private MenuButton[] buttons = new MenuButton[3];
+	private MenuButton[] buttons = new MenuButton[2];
 	private BufferedImage backgroundImg;
 	private BufferedImage menuIconImg;
 	private int menuX, menuY, menuWidth, menuHeight, buttonXOffset, buttonInitialX, buttonYPos;
@@ -41,8 +41,8 @@ public class Menu extends State implements StateMethods
 		buttonXOffset = (int)(B_WIDTH + 25 * Game.SCALE);
 		buttonYPos = (int)(263 * Game.SCALE);
 		buttons[0] = new MenuButton(buttonInitialX, buttonYPos, 0, GameState.PLAYING);
-		buttons[1] = new MenuButton(buttonInitialX + buttonXOffset, buttonYPos, 1, GameState.OPTIONS);
-		buttons[2] = new MenuButton(buttonInitialX + 2 * buttonXOffset, buttonYPos, 2, GameState.QUIT);
+//		buttons[1] = new MenuButton(buttonInitialX + buttonXOffset, buttonYPos, 1, GameState.OPTIONS);
+		buttons[1] = new MenuButton(buttonInitialX + 2 * buttonXOffset, buttonYPos, 2, GameState.QUIT);
 	}
 
 	@Override

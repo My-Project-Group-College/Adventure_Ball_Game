@@ -12,7 +12,6 @@ public class Playing extends State implements StateMethods
 {
 	private Player player;
 	private LevelManager levelManger;
-	private int left = 0, right = 2;
 
 	public Playing(Game game) 
 	{
