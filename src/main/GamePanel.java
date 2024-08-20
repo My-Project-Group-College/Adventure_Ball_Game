@@ -34,7 +34,7 @@ public class GamePanel extends JPanel
 		setMinimumSize(size);
 		setPreferredSize(size);
 		setMaximumSize(size);
-		System.out.println("Size : " + GAME_WIDTH + ", " + GAME_HEIGHT);
+		System.out.println("Frame Size : " + GAME_WIDTH + ", " + GAME_HEIGHT + "\n\n");
 	}	
 	
 	public void paintComponent(Graphics g) 
