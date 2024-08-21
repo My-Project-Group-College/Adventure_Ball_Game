@@ -1,6 +1,8 @@
 package main;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 
 import gamestates.GameState;
 import gamestates.Menu;
@@ -18,7 +20,10 @@ public class Game implements Runnable
 	private Menu menu;
 	
 	public final static int TILES_DEFAULT_SIZE = 32;
-	public final static float SCALE = 2f;
+	public final static Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+	public final static Dimension BASE_SCREEN_SIZE = new Dimension(1920,1080);
+	public final static float SCALE = 2f * Math.min((float) (SCREEN_SIZE.getWidth() / BASE_SCREEN_SIZE.getWidth()),
+													(float) (SCREEN_SIZE.getHeight() / BASE_SCREEN_SIZE.getHeight()));
 	public final static int TILES_IN_WIDTH = 26;
 	public final static int TILES_IN_HEIGHT = 14;
 	public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);

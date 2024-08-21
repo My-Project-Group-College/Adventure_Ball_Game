@@ -15,6 +15,10 @@ public class LoadSave
 	public static final String MENU_BUTTONS = "/StartMenu/button_atlas.png";
 	public static final String MENU_ICON = "/StartMenu/startMenu.png";
 	public static final String MENU_BACKGROUND = "/StartMenu/menuBackground.png";
+	public static final String PAUSE_BACKGROUND = "/PauseMenu/pause_menu.png";
+	public static final String SOUND_BUTTONS = "/PauseMenu/sound_button.png";
+	public static final String URM_BUTTONS = "/PauseMenu/urm_buttons.png";
+	public static final String VOLUME_BUTTONS = "/PauseMenu/volume_buttons.png";
 	
 	public static BufferedImage GetSpriteAtlas(String fileName)
 	{
