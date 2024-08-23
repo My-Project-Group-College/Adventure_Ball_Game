@@ -1,5 +1,6 @@
 package utilities;
 
+import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
 
 import main.Game;
@@ -18,9 +19,10 @@ public class HelpMethods
 	
 	private static boolean IsSolid(float x, float y,int[][] lvlData)
 	{
-		if(x < 0 || x >= Game.GAME_WIDTH)
+		Dimension lvlDimension = new Dimension(lvlData[0].length * Game.TILES_SIZE, lvlData.length * Game.TILES_SIZE);
+		if(x < 0 || x >= lvlDimension.width)
 			return true;
-		if(y < 0 || y >= Game.GAME_HEIGHT)
+		if(y < 0 || y >= lvlDimension.height)
 			return true;
 		
 		float xIndex = x / Game.TILES_SIZE;

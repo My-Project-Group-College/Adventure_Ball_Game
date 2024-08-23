@@ -1,5 +1,6 @@
 package gamestates;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -8,6 +9,7 @@ import entities.Player;
 import levels.LevelManager;
 import main.Game;
 import ui.PauseOverlay;
+import utilities.LoadSave;
 
 public class Playing extends State implements StateMethods
 {
@@ -16,6 +18,18 @@ public class Playing extends State implements StateMethods
 	private LevelManager levelManger;
 	private PauseOverlay pauseOverlay;
 	private boolean paused = false;
+	
+	private int xLvlOffset, yLvlOffset;
+	private int leftBorder = (int) (0.2 * Game.GAME_WIDTH);
+	private int rightBorder = (int) (0.8 * Game.GAME_WIDTH);
+	private int upBorder = (int) (0.15 * Game.GAME_HEIGHT);
+	private int downBorder = (int) (0.875 * Game.GAME_HEIGHT);
+	private int lvlTilesWide = LoadSave.GetLevelData()[0].length;
+	private int lvlTilesTall = LoadSave.GetLevelData().length;
+	private int maxTilesOffsetX = lvlTilesWide - Game.TILES_IN_WIDTH;
+	private int maxTilesOffsetY = lvlTilesTall - Game.TILES_IN_HEIGHT;
+	private int maxLvlOffsetX = maxTilesOffsetX * Game.TILES_SIZE;
+	private int maxLvlOffsetY = maxTilesOffsetY * Game.TILES_SIZE;
 
 	public Playing(Game game) 
 	{
@@ -46,13 +60,41 @@ public class Playing extends State implements StateMethods
 		paused = false;
 	}
 	
+	private void checkCloseToBorder() 
+	{
+		int playerX = (int) player.getHitbox().x;
+		int playerY = (int) player.getHitbox().y;
+		int diffX = playerX - xLvlOffset;
+		int diffY = playerY - yLvlOffset;
+		
+		if(diffX > rightBorder)
+			xLvlOffset += diffX - rightBorder;
+		if(diffX < leftBorder)
+			xLvlOffset += diffX - leftBorder;
+		if(diffY > downBorder)
+			yLvlOffset += diffY - downBorder;
+		if(diffY < upBorder)
+			yLvlOffset += diffY - upBorder;
+		
+		if(xLvlOffset > maxLvlOffsetX)
+			xLvlOffset = maxLvlOffsetX;
+		else if(xLvlOffset < 0)
+			xLvlOffset = 0;
+		if(yLvlOffset > maxLvlOffsetY)
+			yLvlOffset = maxLvlOffsetY;
+		else if(yLvlOffset < 0)
+			yLvlOffset = 0;
+		
+	}
+	
 	@Override
 	public void update() 
 	{
 		if(!paused)
 		{
 			levelManger.update();
-			player.update();			
+			player.update();
+			checkCloseToBorder();
 		}
 		else
 			pauseOverlay.update();
@@ -61,10 +103,14 @@ public class Playing extends State implements StateMethods
 	@Override
 	public void draw(Graphics g) 
 	{
-		levelManger.draw(g);
-		player.render(g);
+		levelManger.draw(g, xLvlOffset, yLvlOffset);
+		player.render(g, xLvlOffset, yLvlOffset);
 		if(paused)
+		{
+			g.setColor(new Color(0, 0, 0, 150));
+			g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
 			pauseOverlay.draw(g);
+		}
 	}
 
 	public void mouseDragged(MouseEvent e)
@@ -119,9 +165,13 @@ public class Playing extends State implements StateMethods
 		case KeyEvent.VK_RIGHT:
 			player.setRight(true);
 			break;
-		case KeyEvent.VK_ESCAPE:
-			paused = !paused;
+		case KeyEvent.VK_BACK_SPACE:
+			player.resetDirBooleans();
+			GameState.state = GameState.MENU;
 			break;
+////		case KeyEvent.VK_ESCAPE:
+////			paused = !paused;
+////			break;
 			
 		}
 	}
