@@ -4,11 +4,10 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import javax.imageio.ImageIO;
-import main.Game;
 
-public class LoadSave 
-{
+import javax.imageio.ImageIO;
+
+public class LoadSave {
 	public static final String PLAYER_ATLAS = "/sprites/playerSprite.png";
 	public static final String LEVEL_ATLAS = "/levels/ground_sprites.png";
 	public static final String LEVEL_TEMP_DATA = "/levels/level_temp_data.png";
@@ -21,49 +20,38 @@ public class LoadSave
 	public static final String SOUND_BUTTONS = "/PauseMenu/sound_button.png";
 	public static final String URM_BUTTONS = "/PauseMenu/urm_buttons.png";
 	public static final String VOLUME_BUTTONS = "/PauseMenu/volume_buttons.png";
-	
-	public static BufferedImage GetSpriteAtlas(String fileName)
-	{
+	public static final String LVL1_BACKGROUND = "/backgrounds/Background_1.png";
+
+	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;
 		InputStream inpStream = LoadSave.class.getResourceAsStream(fileName);
-		
-		try 
-		{
+
+		try {
 			img = ImageIO.read(inpStream);
-			
-			
-		} 
-		catch (IOException e) 
-		{
+
+		} catch (IOException e) {
 			System.out.println("Player Image Loading Error");
 			e.printStackTrace();
-		}
-		finally
-		{
-			try 
-			{
+		} finally {
+			try {
 				inpStream.close();
-			} 
-			catch (IOException e) 
-			{
+			} catch (IOException e) {
 				System.out.println("Error While Closing Input Stream");
 				e.printStackTrace();
 			}
 		}
 		return img;
 	}
-	
-	public static int[][] GetLevelData()
-	{
+
+	public static int[][] GetLevelData() {
 		BufferedImage img = GetSpriteAtlas(LEVEL_ONE_DATA);
 		int[][] lvlData = new int[img.getHeight()][img.getWidth()];
-		
+
 		for (int j = 0; j < img.getHeight(); j++)
-			for (int i = 0; i < img.getWidth(); i++) 
-			{
+			for (int i = 0; i < img.getWidth(); i++) {
 				Color color = new Color(img.getRGB(i, j));
 				int value = color.getRed();
-				if (value >= 9)//size of levelSprite Image in LevelManager
+				if (value >= 9)// size of levelSprite Image in LevelManager
 					value = 0;
 				lvlData[j][i] = value;
 			}
