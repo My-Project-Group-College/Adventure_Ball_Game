@@ -4,8 +4,13 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+
+import entities.Bablu;
+import main.Game;
+import static utilities.Constants.EnemyConstants.*;
 
 public class LoadSave {
 	public static final String PLAYER_ATLAS = "/sprites/playerSprite.png";
@@ -21,6 +26,7 @@ public class LoadSave {
 	public static final String URM_BUTTONS = "/PauseMenu/urm_buttons.png";
 	public static final String VOLUME_BUTTONS = "/PauseMenu/volume_buttons.png";
 	public static final String LVL1_BACKGROUND = "/backgrounds/Background_1.png";
+	public static final String BABLU_SPRITE = "/sprites/BabluEnemySprite.png";
 
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;
@@ -43,8 +49,23 @@ public class LoadSave {
 		return img;
 	}
 
+	public static ArrayList<Bablu> GetBablu() {
+		BufferedImage img = GetSpriteAtlas(LEVEL_TWO_DATA);
+		ArrayList<Bablu> list = new ArrayList<Bablu>();
+
+		for (int j = 0; j < img.getHeight(); j++)
+			for (int i = 0; i < img.getWidth(); i++) {
+				Color color = new Color(img.getRGB(i, j));
+				int value = color.getGreen();
+				if (value == BABLU)
+					list.add(new Bablu(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
+			}
+
+		return list;
+	}
+
 	public static int[][] GetLevelData() {
-		BufferedImage img = GetSpriteAtlas(LEVEL_ONE_DATA);
+		BufferedImage img = GetSpriteAtlas(LEVEL_TWO_DATA);
 		int[][] lvlData = new int[img.getHeight()][img.getWidth()];
 
 		for (int j = 0; j < img.getHeight(); j++)
