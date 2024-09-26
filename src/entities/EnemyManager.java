@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import gamestates.Playing;
 import utilities.LoadSave;
 import static utilities.Constants.EnemyConstants.*;
+import static utilities.Constants.PlayerConstants.GetSpriteAmount;
 
 public class EnemyManager {
 
@@ -26,30 +27,34 @@ public class EnemyManager {
 
 	}
 
-	public void update() {
+	public void update(int[][] lvlData) {
 		for (Bablu c : bablus)
-			c.update();
+			c.update(lvlData);
 	}
 
 	public void draw(Graphics g, int xLvlOffset, int yLvlOffset) {
 		drawBablu(g, xLvlOffset, yLvlOffset);
 		for (Bablu c : bablus)
-			c.drawHitbox(g);
+			c.drawHitbox(g, xLvlOffset, yLvlOffset);
 	}
 
 	private void drawBablu(Graphics g, int xLvlOffset, int yLvlOffset) {
 		for (Bablu c : bablus)
-			g.drawImage(babluArr[c.getEnemyState()][c.getAnimIndex()], (int) c.getHitbox().x - xLvlOffset,
-					(int) c.getHitbox().y - yLvlOffset, BABLU_WIDTH, BABLU_HEIGHT, null);
+			g.drawImage(babluArr[c.getEnemyState()][c.getAnimIndex()],
+					(int) c.getHitbox().x - xLvlOffset - BABLU_DRAWOFFSET_X,
+					(int) c.getHitbox().y - yLvlOffset - BABLU_DRAWOFFSET_Y, BABLU_WIDTH, BABLU_HEIGHT, null);
 	}
 
 	private void LoadEnemyImages() {
-		babluArr = new BufferedImage[4][8];
+		babluArr = new BufferedImage[5][8];
 		BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.BABLU_SPRITE);
-		for (int j = 0; j < babluArr.length; j++)
+		for (int j = 0; j < babluArr.length - 1; j++)
 			for (int i = 0; i < babluArr[j].length; i++)
 				babluArr[j][i] = temp.getSubimage(i * BABLU_WIDTH_DEFAULT, j * BABLU_HEIGHT_DEFAULT,
 						BABLU_WIDTH_DEFAULT, BABLU_HEIGHT_DEFAULT);
+
+		for (int i = 0; i < babluArr[RUNNING_REVERSE].length; i++)
+			babluArr[RUNNING_REVERSE][i] = babluArr[RUNNING][GetSpriteAmount(RUNNING) - 1 - i];
 	}
 
 }

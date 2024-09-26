@@ -10,8 +10,7 @@ import static utilities.HelpMethods.*;
 import main.Game;
 import utilities.LoadSave;
 
-public class Player extends Entity
-{
+public class Player extends Entity {
 	private BufferedImage[][] animations;
 	private int animTick, animIndex, animSpeed = 20;
 	private int playerAction = IDLE;
@@ -19,239 +18,202 @@ public class Player extends Entity
 	private boolean left, up, right, down, jump;
 	private float playerSpeed = 2f * Game.SCALE;
 	private int dashingdirection = RIGHT;//
-	private int[][]lvlData;
+	private int[][] lvlData;
 	private float xDrawOffset = 6.25f * Game.SCALE;
 	private float yDrawOffset = 10.5f * Game.SCALE;
-	
+
 	private float airSpeed = 0f;
 	private float gravity = 0.04f * Game.SCALE;
 	private float jumpSpeed = -2.25f * Game.SCALE;
 	private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
 	private boolean inAir = false;
-	
+
 	public static final int PLAYER_WIDTH = (int) (Game.TILES_SIZE * 1.35);
-	public static final int PLAYER_HEIGHT= (int) (Game.TILES_SIZE * 1.35);
-	
-	
-	public Player(float x, float y, int width, int height) 
-	{
+	public static final int PLAYER_HEIGHT = (int) (Game.TILES_SIZE * 1.35);
+
+	public Player(float x, float y, int width, int height) {
 		super(x, y, width, height);
 		loadAnimations();
-		initHitbox(x, y, (int)(29 * Game.SCALE), (int)(29 * Game.SCALE));
+		initHitbox(x, y, (int) (29 * Game.SCALE), (int) (29 * Game.SCALE));
 	}
-	
-	public void update()
-	{
+
+	public void update() {
 		updatePosition();
 		updateAnimationTick();
 		setAnimation();
 	}
-	
-	public void render(Graphics g, int xLvlOffset, int yLvlOffset)
-	{
-		g.drawImage(animations[playerAction][animIndex], (int)(hitbox.x - xDrawOffset) - xLvlOffset, 
-				(int)(hitbox.y - yDrawOffset) - yLvlOffset, PLAYER_WIDTH, PLAYER_HEIGHT, null);
-		drawHitbox(g);
+
+	public void render(Graphics g, int xLvlOffset, int yLvlOffset) {
+		g.drawImage(animations[playerAction][animIndex], (int) (hitbox.x - xDrawOffset) - xLvlOffset,
+				(int) (hitbox.y - yDrawOffset) - yLvlOffset, PLAYER_WIDTH, PLAYER_HEIGHT, null);
+		drawHitbox(g, xLvlOffset, yLvlOffset);
 	}
-	
-	private void updateAnimationTick() 
-	{
+
+	private void updateAnimationTick() {
 		animTick++;
-		if(animTick >= animSpeed)
-		{
+		if (animTick >= animSpeed) {
 			animTick = 0;
 			animIndex++;
-			if(animIndex >= GetSpriteAmount(playerAction))
-			{
+			if (animIndex >= GetSpriteAmount(playerAction)) {
 				animIndex = 0;
 				attacking = false;
 			}
 		}
 	}
-	
+
 //	public void setDashingDir(int dashingDirection) {
 //		this.dashingdirection=dashingDirection;
 //	}
 
-	public void setAnimation()
-	{
+	public void setAnimation() {
 		int startAnim = playerAction;
-		
-		
-		if(moving)
-		{
-			if(right && !left)
+
+		if (moving) {
+			if (right && !left)
 				playerAction = RUNNING;
-			else if(left && !right)
-				playerAction = RUNNING_REVERSE;	
-		}
-		else
+			else if (left && !right)
+				playerAction = RUNNING_REVERSE;
+		} else
 			playerAction = IDLE;
-		
-		if(inAir)
-		{
-			if(airSpeed < 0)
+
+		if (inAir) {
+			if (airSpeed < 0)
 				playerAction = JUMP;
 			else
 				playerAction = FALLING;
 		}
-		
-		if(attacking)
+
+		if (attacking)
 			playerAction = ATTACK;
-		
-		if(startAnim != playerAction)
+
+		if (startAnim != playerAction)
 			resetAnimTick();
 	}
-	
-	private void resetAnimTick() 
-	{
+
+	private void resetAnimTick() {
 		animTick = 0;
 		animIndex = 0;
 	}
 
-	public void updatePosition()
-	{
+	public void updatePosition() {
 
 		moving = false;
-		
-		if(jump) jump();
-		if(!inAir && left == right) return;
-		
+
+		if (jump)
+			jump();
+		if (!inAir && left == right)
+			return;
+
 		float xSpeed = 0;
-		
-		if(left)
+
+		if (left)
 			xSpeed -= playerSpeed;
-		
-		if(right)
+
+		if (right)
 			xSpeed += playerSpeed;
-		
-		if(!inAir && !IsEntityOnFloor(hitbox, lvlData))
+
+		if (!inAir && !IsEntityOnFloor(hitbox, lvlData))
 			inAir = true;
-		
-		if(inAir)
-		{
-			if(CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData))
-			{
+
+		if (inAir) {
+			if (CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)) {
 				hitbox.y += airSpeed;
 				airSpeed += gravity;
 				updateXPos(xSpeed);
-			}			
-			else
-			{
+			} else {
 				hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed);
-				if(airSpeed > 0)
+				if (airSpeed > 0)
 					resetInAir();
 				else
 					airSpeed = fallSpeedAfterCollision;
 			}
-		}
-		else
+		} else
 			updateXPos(xSpeed);
-		
-		
+
 		moving = true;
 	}
-	
-	private void jump()
-	{
-		if(inAir) return;
-		
+
+	private void jump() {
+		if (inAir)
+			return;
+
 		inAir = true;
 		airSpeed = jumpSpeed;
 	}
 
-	private void resetInAir() 
-	{
+	private void resetInAir() {
 		inAir = false;
 		airSpeed = 0;
 	}
 
-	private void updateXPos(float xSpeed) 
-	{
-		if(CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData))
-				hitbox.x += xSpeed;
+	private void updateXPos(float xSpeed) {
+		if (CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData))
+			hitbox.x += xSpeed;
 		else
 			hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
 	}
 
-	
-	private void loadAnimations() 
-	{
-			BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
-			
-			
-			animations = new BufferedImage[9][8];
-			for(int i = 0; i < animations.length - 1; i++)
-			{
-				for (int j = 0; j < animations[i].length; j++)
-				{
-					if(i != RUNNING_REVERSE)
-						animations[i][j] = img.getSubimage(j * 64, i * 64, 64, 64);
-				}
+	private void loadAnimations() {
+		BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
+
+		animations = new BufferedImage[9][8];
+		for (int i = 0; i < animations.length - 1; i++) {
+			for (int j = 0; j < animations[i].length; j++) {
+				if (i != RUNNING_REVERSE)
+					animations[i][j] = img.getSubimage(j * 64, i * 64, 64, 64);
 			}
-			for(int i = 0; i < animations[RUNNING_REVERSE].length; i++)
-			{
-				animations[RUNNING_REVERSE][i] = animations[RUNNING][GetSpriteAmount(RUNNING) - 1 - i]; 
-			}
+		}
+		for (int i = 0; i < animations[RUNNING_REVERSE].length; i++) {
+			animations[RUNNING_REVERSE][i] = animations[RUNNING][GetSpriteAmount(RUNNING) - 1 - i];
+		}
 	}
-	
-	public void loadLvlData(int[][] lvlData)
-	{
+
+	public void loadLvlData(int[][] lvlData) {
 		this.lvlData = lvlData;
-		if(!IsEntityOnFloor(hitbox, lvlData))
+		if (!IsEntityOnFloor(hitbox, lvlData))
 			inAir = true;
 	}
 
-	public void resetDirBooleans() 
-	{
+	public void resetDirBooleans() {
 		left = false;
 		right = false;
 		up = false;
 		down = false;
 	}
-	
-	public void setAttacking(boolean attacking)
-	{
+
+	public void setAttacking(boolean attacking) {
 		this.attacking = attacking;
 	}
-	
-	public boolean isLeft() 
-	{
+
+	public boolean isLeft() {
 		return left;
 	}
 
-	public void setLeft(boolean left) 
-	{
+	public void setLeft(boolean left) {
 		this.left = left;
 	}
 
-	public boolean isUp() 
-	{
+	public boolean isUp() {
 		return up;
 	}
 
-	public void setUp(boolean up) 
-	{
+	public void setUp(boolean up) {
 		this.up = up;
 	}
 
-	public boolean isRight() 
-	{
+	public boolean isRight() {
 		return right;
 	}
 
-	public void setRight(boolean right) 
-	{
+	public void setRight(boolean right) {
 		this.right = right;
 	}
 
-	public boolean isDown() 
-	{
+	public boolean isDown() {
 		return down;
 	}
 
-	public void setDown(boolean down) 
-	{
+	public void setDown(boolean down) {
 		this.down = down;
 	}
 
@@ -263,5 +225,4 @@ public class Player extends Entity
 		this.jump = jump;
 	}
 
-	
 }

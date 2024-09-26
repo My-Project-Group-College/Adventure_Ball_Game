@@ -10,6 +10,7 @@ public class Constants {
 		public static final int IDLE = 1;
 		public static final int HIT = 2;
 		public static final int ATTACK = 3;
+		public static final int RUNNING_REVERSE = 4;
 
 		public static final int BABLU_WIDTH_DEFAULT = 64;
 		public static final int BABLU_HEIGHT_DEFAULT = 64;
@@ -17,12 +18,16 @@ public class Constants {
 		public static final int BABLU_WIDTH = (int) ((BABLU_WIDTH_DEFAULT * Game.SCALE - 32) * 0.75);
 		public static final int BABLU_HEIGHT = (int) ((BABLU_HEIGHT_DEFAULT * Game.SCALE - 32) * 0.75);
 
+		public static final int BABLU_DRAWOFFSET_X = (int) (6.5 * Game.SCALE);
+		public static final int BABLU_DRAWOFFSET_Y = (int) (8.5 * Game.SCALE);
+
 		public static int GetSpriteAmount(int enemy_type, int enemy_state) {
 			switch (enemy_type) {
 
 			case BABLU:
 				switch (enemy_state) {
 				case RUNNING:
+				case RUNNING_REVERSE:
 					return 8;
 				case IDLE:
 					return 1;
