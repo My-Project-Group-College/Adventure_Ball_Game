@@ -12,7 +12,7 @@ import utilities.LoadSave;
 
 public class Player extends Entity {
 	private BufferedImage[][] animations;
-	private int animTick, animIndex, animSpeed = 20;
+	private int animTick, animIndex, animSpeed = 12;
 	private int playerAction = IDLE;
 	private boolean moving = false, attacking = false, dashing = false;//
 	private boolean left, up, right, down, jump;
