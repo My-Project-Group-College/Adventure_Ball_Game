@@ -14,10 +14,9 @@ public class Player extends Entity {
 	private BufferedImage[][] animations;
 	private int animTick, animIndex, animSpeed = 12;
 	private int playerAction = IDLE;
-	private boolean moving = false, attacking = false, dashing = false;//
-	private boolean left, up, right, down, jump;
-	private float playerSpeed = 2f * Game.SCALE;
-	private int dashingdirection = RIGHT;//
+	private boolean moving = false, attacking = false;
+	private boolean left, up, right, down, jump, dash;
+	private float playerSpeed = 1.6f * Game.SCALE;
 	private int[][] lvlData;
 	private float xDrawOffset = 6.25f * Game.SCALE;
 	private float yDrawOffset = 10.5f * Game.SCALE;
@@ -60,19 +59,14 @@ public class Player extends Entity {
 			}
 		}
 	}
-
-//	public void setDashingDir(int dashingDirection) {
-//		this.dashingdirection=dashingDirection;
-//	}
-
 	public void setAnimation() {
 		int startAnim = playerAction;
-
 		if (moving) {
 			if (right && !left)
 				playerAction = RUNNING;
 			else if (left && !right)
 				playerAction = RUNNING_REVERSE;
+			
 		} else
 			playerAction = IDLE;
 
@@ -86,6 +80,8 @@ public class Player extends Entity {
 		if (attacking)
 			playerAction = ATTACK;
 
+		if((dash && right) || (dash && left) ||(dash && jump))
+			playerAction=DASH;
 		if (startAnim != playerAction)
 			resetAnimTick();
 	}
@@ -111,6 +107,12 @@ public class Player extends Entity {
 
 		if (right)
 			xSpeed += playerSpeed;
+		if (dash) {
+			 if(left)
+				xSpeed-= 1.5f+playerSpeed;
+			else
+			xSpeed+= 1.5f+playerSpeed;
+		}
 
 		if (!inAir && !IsEntityOnFloor(hitbox, lvlData))
 			inAir = true;
@@ -156,8 +158,8 @@ public class Player extends Entity {
 	private void loadAnimations() {
 		BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
 
-		animations = new BufferedImage[9][8];
-		for (int i = 0; i < animations.length - 1; i++) {
+		animations = new BufferedImage[10][8];
+		for (int i = 0; i < animations.length-1; i++) {
 			for (int j = 0; j < animations[i].length; j++) {
 				if (i != RUNNING_REVERSE)
 					animations[i][j] = img.getSubimage(j * 64, i * 64, 64, 64);
@@ -223,6 +225,12 @@ public class Player extends Entity {
 
 	public void setJump(boolean jump) {
 		this.jump = jump;
+	}
+	public boolean isDash() {
+		return dash;
+	}
+	public void setDash(boolean dash) {
+		this.dash= dash;
 	}
 
 }

@@ -151,6 +151,9 @@ public class Playing extends State implements StateMethods {
 		case KeyEvent.VK_RIGHT:
 			player.setRight(true);
 			break;
+		case KeyEvent.VK_SHIFT:
+			player.setDash(true);
+			break;
 		case KeyEvent.VK_BACK_SPACE:
 			player.resetDirBooleans();
 			GameState.state = GameState.MENU;
@@ -178,8 +181,8 @@ public class Playing extends State implements StateMethods {
 		case KeyEvent.VK_RIGHT:
 			player.setRight(false);
 			break;
-//		case KeyEvent.VK_SHIFT:
-//			player.setDash(false);
+		case KeyEvent.VK_SHIFT:
+			player.setDash(false);
 		}
 	}
 }

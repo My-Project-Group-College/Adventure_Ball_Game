@@ -50,7 +50,7 @@ public class LoadSave {
 	}
 
 	public static ArrayList<Bablu> GetBablu() {
-		BufferedImage img = GetSpriteAtlas(LEVEL_ONE_DATA);
+		BufferedImage img = GetSpriteAtlas(LEVEL_TWO_DATA);
 		ArrayList<Bablu> list = new ArrayList<Bablu>();
 
 		for (int j = 0; j < img.getHeight(); j++)
@@ -65,7 +65,7 @@ public class LoadSave {
 	}
 
 	public static int[][] GetLevelData() {
-		BufferedImage img = GetSpriteAtlas(LEVEL_ONE_DATA);
+		BufferedImage img = GetSpriteAtlas(LEVEL_TWO_DATA);
 		int[][] lvlData = new int[img.getHeight()][img.getWidth()];
 
 		for (int j = 0; j < img.getHeight(); j++)
