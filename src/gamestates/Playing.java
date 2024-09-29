@@ -31,6 +31,7 @@ public class Playing extends State implements StateMethods {
 	private int maxTilesOffsetY = lvlTilesTall - Game.TILES_IN_HEIGHT;
 	private int maxLvlOffsetX = maxTilesOffsetX * Game.TILES_SIZE;
 	private int maxLvlOffsetY = maxTilesOffsetY * Game.TILES_SIZE;
+	
 
 	public Playing(Game game) {
 		super(game);
@@ -137,6 +138,7 @@ public class Playing extends State implements StateMethods {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+	
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_SPACE:
 		case KeyEvent.VK_W:
@@ -153,6 +155,7 @@ public class Playing extends State implements StateMethods {
 			break;
 		case KeyEvent.VK_SHIFT:
 			player.setDash(true);
+		
 			break;
 		case KeyEvent.VK_BACK_SPACE:
 			player.resetDirBooleans();
@@ -166,7 +169,7 @@ public class Playing extends State implements StateMethods {
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
+	public void keyReleased(KeyEvent e){
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_SPACE:
 		case KeyEvent.VK_W:
@@ -183,6 +186,8 @@ public class Playing extends State implements StateMethods {
 			break;
 		case KeyEvent.VK_SHIFT:
 			player.setDash(false);
+		
 		}
 	}
+
 }

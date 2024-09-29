@@ -2,6 +2,8 @@ package entities;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.time.Instant;
+import java.util.concurrent.TimeUnit;
 
 import static utilities.Constants.Directions.*;
 import static utilities.Constants.PlayerConstants.*;
@@ -16,6 +18,7 @@ public class Player extends Entity {
 	private int playerAction = IDLE;
 	private boolean moving = false, attacking = false;
 	private boolean left, up, right, down, jump, dash;
+	private static long dashCooldown= 3000;
 	private float playerSpeed = 1.6f * Game.SCALE;
 	private int[][] lvlData;
 	private float xDrawOffset = 6.25f * Game.SCALE;
@@ -40,6 +43,7 @@ public class Player extends Entity {
 		updatePosition();
 		updateAnimationTick();
 		setAnimation();
+		
 	}
 
 	public void render(Graphics g, int xLvlOffset, int yLvlOffset) {
@@ -111,7 +115,7 @@ public class Player extends Entity {
 			 if(left)
 				xSpeed-= 1.5f+playerSpeed;
 			else
-			xSpeed+= 1.5f+playerSpeed;
+			    xSpeed+= 1.5f+playerSpeed;
 		}
 
 		if (!inAir && !IsEntityOnFloor(hitbox, lvlData))
