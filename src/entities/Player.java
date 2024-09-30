@@ -3,6 +3,7 @@ package entities;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.time.Instant;
+import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
 import static utilities.Constants.Directions.*;
@@ -18,8 +19,8 @@ public class Player extends Entity {
 	private int playerAction = IDLE;
 	private boolean moving = false, attacking = false;
 	private boolean left, up, right, down, jump, dash;
-	private static long dashCooldown= 3000;
-	private float playerSpeed = 1.6f * Game.SCALE;
+	private final float PLAYER_SPEED_DEFAULT = 1.6f * Game.SCALE;
+	private float playerSpeed = PLAYER_SPEED_DEFAULT;
 	private int[][] lvlData;
 	private float xDrawOffset = 6.25f * Game.SCALE;
 	private float yDrawOffset = 10.5f * Game.SCALE;
@@ -29,6 +30,7 @@ public class Player extends Entity {
 	private float jumpSpeed = -2.25f * Game.SCALE;
 	private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
 	private boolean inAir = false;
+	public float dashCooldown = 0;
 
 	public static final int PLAYER_WIDTH = (int) (Game.TILES_SIZE * 1.35);
 	public static final int PLAYER_HEIGHT = (int) (Game.TILES_SIZE * 1.35);
@@ -43,7 +45,7 @@ public class Player extends Entity {
 		updatePosition();
 		updateAnimationTick();
 		setAnimation();
-		
+
 	}
 
 	public void render(Graphics g, int xLvlOffset, int yLvlOffset) {
@@ -63,14 +65,15 @@ public class Player extends Entity {
 			}
 		}
 	}
+
 	public void setAnimation() {
 		int startAnim = playerAction;
+
 		if (moving) {
 			if (right && !left)
 				playerAction = RUNNING;
 			else if (left && !right)
 				playerAction = RUNNING_REVERSE;
-			
 		} else
 			playerAction = IDLE;
 
@@ -84,8 +87,8 @@ public class Player extends Entity {
 		if (attacking)
 			playerAction = ATTACK;
 
-		if((dash && right) || (dash && left) ||(dash && jump))
-			playerAction=DASH;
+		if (dash && (right || left) && dashCooldown == 0)
+			playerAction = DASH;
 		if (startAnim != playerAction)
 			resetAnimTick();
 	}
@@ -97,7 +100,12 @@ public class Player extends Entity {
 
 	public void updatePosition() {
 
+		if (playerSpeed != PLAYER_SPEED_DEFAULT)
+			playerSpeed = PLAYER_SPEED_DEFAULT;
 		moving = false;
+
+		if (dash && dashCooldown == 0)
+			playerSpeed = 1.5f + PLAYER_SPEED_DEFAULT;
 
 		if (jump)
 			jump();
@@ -111,12 +119,6 @@ public class Player extends Entity {
 
 		if (right)
 			xSpeed += playerSpeed;
-		if (dash) {
-			 if(left)
-				xSpeed-= 1.5f+playerSpeed;
-			else
-			    xSpeed+= 1.5f+playerSpeed;
-		}
 
 		if (!inAir && !IsEntityOnFloor(hitbox, lvlData))
 			inAir = true;
@@ -163,7 +165,7 @@ public class Player extends Entity {
 		BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
 
 		animations = new BufferedImage[10][8];
-		for (int i = 0; i < animations.length-1; i++) {
+		for (int i = 0; i < animations.length - 1; i++) {
 			for (int j = 0; j < animations[i].length; j++) {
 				if (i != RUNNING_REVERSE)
 					animations[i][j] = img.getSubimage(j * 64, i * 64, 64, 64);
@@ -185,6 +187,11 @@ public class Player extends Entity {
 		right = false;
 		up = false;
 		down = false;
+	}
+
+	public void resetDash() {
+		dashCooldown = 2.5f;
+		playerAction = IDLE;
 	}
 
 	public void setAttacking(boolean attacking) {
@@ -230,11 +237,13 @@ public class Player extends Entity {
 	public void setJump(boolean jump) {
 		this.jump = jump;
 	}
+
 	public boolean isDash() {
 		return dash;
 	}
+
 	public void setDash(boolean dash) {
-		this.dash= dash;
+		this.dash = dash;
 	}
 
 }

@@ -2,8 +2,11 @@ package gamestates;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import javax.swing.Timer;
 
 import entities.EnemyManager;
 import entities.Player;
@@ -31,7 +34,8 @@ public class Playing extends State implements StateMethods {
 	private int maxTilesOffsetY = lvlTilesTall - Game.TILES_IN_HEIGHT;
 	private int maxLvlOffsetX = maxTilesOffsetX * Game.TILES_SIZE;
 	private int maxLvlOffsetY = maxTilesOffsetY * Game.TILES_SIZE;
-	
+	private Timer timer;
+	private ActionListener changesPerSecond;
 
 	public Playing(Game game) {
 		super(game);
@@ -44,6 +48,25 @@ public class Playing extends State implements StateMethods {
 		player = new Player(200, 200, (int) (64 * Game.SCALE), (int) (40 * Game.SCALE));
 		player.loadLvlData(levelManager.getCurrentLevel().getLvlData());
 		pauseOverlay = new PauseOverlay(this);
+		changesPerSecond = new ActionListener() {
+			private float count = 0;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (player.dashCooldown > 0)
+					player.dashCooldown -= 0.5f;
+//				System.out.println(player.dashCooldown);
+				if (player.dashCooldown == 0)
+					count += 0.5;
+				if (count == 1.5) {
+					player.resetDash();
+					count = 0;
+				}
+
+			}
+		};
+		timer = new Timer(500, changesPerSecond);
+		timer.start();
 	}
 
 	public void windowFocusLost() {
@@ -138,7 +161,7 @@ public class Playing extends State implements StateMethods {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-	
+
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_SPACE:
 		case KeyEvent.VK_W:
@@ -155,7 +178,7 @@ public class Playing extends State implements StateMethods {
 			break;
 		case KeyEvent.VK_SHIFT:
 			player.setDash(true);
-		
+
 			break;
 		case KeyEvent.VK_BACK_SPACE:
 			player.resetDirBooleans();
@@ -169,7 +192,7 @@ public class Playing extends State implements StateMethods {
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e){
+	public void keyReleased(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_SPACE:
 		case KeyEvent.VK_W:
@@ -186,7 +209,10 @@ public class Playing extends State implements StateMethods {
 			break;
 		case KeyEvent.VK_SHIFT:
 			player.setDash(false);
-		
+//			if (player.dashCooldown == 0)
+//				player.resetDash();
+			break;
+
 		}
 	}
 
