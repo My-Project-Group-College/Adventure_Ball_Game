@@ -7,7 +7,7 @@ import main.Game;
 
 public abstract class Enemy extends Entity {
 
-	protected int animIndex, enemyType, enemyState = 1;
+	protected int animIndex, enemyType, enemyState;
 	protected int aniTick, aniSpeed = 20;
 	protected boolean firstUpdate = true;
 	protected boolean inAir;
@@ -16,7 +16,7 @@ public abstract class Enemy extends Entity {
 	protected float walkSpeed = 0.35f * Game.SCALE;
 	protected int walkDir = LEFT;
 	protected int tileY;
-	protected float attackDistance= Game.TILES_SIZE;
+	protected float attackDistance = Game.TILES_SIZE;
 
 	public Enemy(float x, float y, int width, int height, int enemyType) {
 		super(x, y, width, height);
@@ -29,7 +29,7 @@ public abstract class Enemy extends Entity {
 			inAir = true;
 		firstUpdate = false;
 	}
-	
+
 	protected void updateInAir(int[][] lvlData) {
 		if (CanMoveHere(hitbox.x, hitbox.y + fallSpeed, hitbox.width, hitbox.height, lvlData)) {
 			hitbox.y += fallSpeed;
@@ -37,10 +37,10 @@ public abstract class Enemy extends Entity {
 		} else {
 			inAir = false;
 			hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox, fallSpeed);
-			tileY=(int) (hitbox.y / Game.TILES_SIZE);
+			tileY = (int) (hitbox.y / Game.TILES_SIZE);
 		}
 	}
-	
+
 	protected void move(int[][] lvlData) {
 		float xSpeed = 0;
 
@@ -57,28 +57,28 @@ public abstract class Enemy extends Entity {
 
 		changeWalkDir();
 	}
-	
+
 	protected boolean canSeePlayer(int[][] lvlData, Player player) {
-		int playerTileY= (int)player.getHitbox().y/ Game.TILES_SIZE;
-		if(playerTileY == tileY) 
-			if(isPlayerInRange(player)) {
-				if(IsSightClear(lvlData,hitbox,player.hitbox,tileY))
+		int playerTileY = (int) player.getHitbox().y / Game.TILES_SIZE;
+		if (playerTileY == tileY)
+			if (isPlayerInRange(player)) {
+				if (IsSightClear(lvlData, hitbox, player.hitbox, tileY))
 					return true;
 			}
 		return false;
 	}
-	
+
 	private boolean isPlayerInRange(Player player) {
-		int absValue=(int)Math.abs(player.hitbox.x - hitbox.x);
-		return absValue<=attackDistance*5;
+		int absValue = (int) Math.abs(player.hitbox.x - hitbox.x);
+		return absValue <= attackDistance * 5;
 	}
 
 	protected void newState(int enemyState) {
-		this.enemyState=enemyState;
-		aniTick=0;
-		animIndex=0;
+		this.enemyState = enemyState;
+		aniTick = 0;
+		animIndex = 0;
 	}
-	
+
 	protected void updateAnimationTick() {
 		aniTick++;
 		if (aniTick >= aniSpeed) {
@@ -88,10 +88,6 @@ public abstract class Enemy extends Entity {
 				animIndex = 0;
 		}
 	}
-
-	
-
-	
 
 	protected void changeWalkDir() {
 		if (walkDir == LEFT) {
