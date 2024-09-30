@@ -116,8 +116,7 @@ public class Player extends Entity {
 		if (dash && dashCooldown == 0) {
 			if (left)
 				xSpeed -= 1.5f + playerSpeed;
-			else
-				xSpeed += 1.5f + playerSpeed;
+			xSpeed += 1.5f + playerSpeed;
 		}
 
 		if (!inAir && !IsEntityOnFloor(hitbox, lvlData))
@@ -190,7 +189,7 @@ public class Player extends Entity {
 	}
 
 	public void resetDash() {
-		dashCooldown = 2.5f;
+		dashCooldown = 1.5f;
 		playerAction = IDLE;
 	}
 
