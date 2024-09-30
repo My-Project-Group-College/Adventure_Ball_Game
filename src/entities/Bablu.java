@@ -1,12 +1,6 @@
 package entities;
 
-import static utilities.Constants.Directions.LEFT;
 import static utilities.Constants.EnemyConstants.*;
-import static utilities.HelpMethods.CanMoveHere;
-import static utilities.HelpMethods.GetEntityYPosUnderRoofOrAboveFloor;
-import static utilities.HelpMethods.IsEntityOnFloor;
-import static utilities.HelpMethods.IsFloor;
-
 import main.Game;
 
 public class Bablu extends Enemy {
@@ -15,13 +9,15 @@ public class Bablu extends Enemy {
 		super(x, y, BABLU_WIDTH, BABLU_HEIGHT, BABLU);
 		initHitbox(x, y, (int) (30 * Game.SCALE * 0.75), (int) (33 * Game.SCALE * 0.75));
 	}
-	public void update(int[][] lvlData) {
-		updateMove(lvlData);
+
+	public void update(int[][] lvlData, Player player) {
+		updateMove(lvlData, player);
 		updateAnimationTick();
 	}
-	private void updateMove(int[][] lvlData) {
-		if (firstUpdate) 
-			firstUpdateCheck(lvlData);
+
+	private void updateMove(int[][] lvlData, Player player) {
+		if (firstUpdate)
+			firstupdateCheck(lvlData);
 		if (inAir) {
 			updateInAir(lvlData);
 		} else {
@@ -31,7 +27,12 @@ public class Bablu extends Enemy {
 				break;
 			case RUNNING:
 			case RUNNING_REVERSE:
-                move(lvlData);
+				if (canSeePlayer(lvlData, player))
+					turnTowardsPlayer(player);
+				if (isPlayerCloseForAttack(player))
+					newState(ATTACK);
+
+				move(lvlData);
 				break;
 			}
 		}

@@ -19,8 +19,7 @@ public class Player extends Entity {
 	private int playerAction = IDLE;
 	private boolean moving = false, attacking = false;
 	private boolean left, up, right, down, jump, dash;
-	private final float PLAYER_SPEED_DEFAULT = 1.6f * Game.SCALE;
-	private float playerSpeed = PLAYER_SPEED_DEFAULT;
+	private float playerSpeed = 1.6f * Game.SCALE;
 	private int[][] lvlData;
 	private float xDrawOffset = 6.25f * Game.SCALE;
 	private float yDrawOffset = 10.5f * Game.SCALE;
@@ -87,7 +86,7 @@ public class Player extends Entity {
 		if (attacking)
 			playerAction = ATTACK;
 
-		if (dash && (right || left) && dashCooldown == 0)
+		if (dash && (right || left || jump) && dashCooldown == 0)
 			playerAction = DASH;
 		if (startAnim != playerAction)
 			resetAnimTick();
@@ -100,12 +99,7 @@ public class Player extends Entity {
 
 	public void updatePosition() {
 
-		if (playerSpeed != PLAYER_SPEED_DEFAULT)
-			playerSpeed = PLAYER_SPEED_DEFAULT;
 		moving = false;
-
-		if (dash && dashCooldown == 0)
-			playerSpeed = 1.5f + PLAYER_SPEED_DEFAULT;
 
 		if (jump)
 			jump();
@@ -119,6 +113,12 @@ public class Player extends Entity {
 
 		if (right)
 			xSpeed += playerSpeed;
+		if (dash && dashCooldown == 0) {
+			if (left)
+				xSpeed -= 1.5f + playerSpeed;
+			else
+				xSpeed += 1.5f + playerSpeed;
+		}
 
 		if (!inAir && !IsEntityOnFloor(hitbox, lvlData))
 			inAir = true;

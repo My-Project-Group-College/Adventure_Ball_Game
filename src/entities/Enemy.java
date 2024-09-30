@@ -16,7 +16,7 @@ public abstract class Enemy extends Entity {
 	protected float walkSpeed = 0.35f * Game.SCALE;
 	protected int walkDir = LEFT;
 	protected int tileY;
-	protected float attackDistance = Game.TILES_SIZE;
+	protected float attackDistance = 1 * Game.TILES_SIZE;
 
 	public Enemy(float x, float y, int width, int height, int enemyType) {
 		super(x, y, width, height);
@@ -24,7 +24,7 @@ public abstract class Enemy extends Entity {
 		initHitbox(x, y, width, height);
 	}
 
-	protected void firstUpdateCheck(int[][] lvlData) {
+	protected void firstupdateCheck(int[][] lvlData) {
 		if (!IsEntityOnFloor(hitbox, lvlData))
 			inAir = true;
 		firstUpdate = false;
@@ -37,7 +37,7 @@ public abstract class Enemy extends Entity {
 		} else {
 			inAir = false;
 			hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox, fallSpeed);
-			tileY = (int) (hitbox.y / Game.TILES_SIZE);
+			tileY = (int) hitbox.y / Game.TILES_SIZE;
 		}
 	}
 
@@ -56,21 +56,33 @@ public abstract class Enemy extends Entity {
 			}
 
 		changeWalkDir();
+
+	}
+
+	protected void turnTowardsPlayer(Player player) {
+		if (player.hitbox.x > hitbox.x)
+			walkDir = RIGHT;
+		else
+			walkDir = LEFT;
 	}
 
 	protected boolean canSeePlayer(int[][] lvlData, Player player) {
 		int playerTileY = (int) player.getHitbox().y / Game.TILES_SIZE;
 		if (playerTileY == tileY)
-			if (isPlayerInRange(player)) {
+			if (playerInRange(player))
 				if (IsSightClear(lvlData, hitbox, player.hitbox, tileY))
 					return true;
-			}
 		return false;
 	}
 
-	private boolean isPlayerInRange(Player player) {
-		int absValue = (int) Math.abs(player.hitbox.x - hitbox.x);
-		return absValue <= attackDistance * 5;
+	protected boolean playerInRange(Player player) {
+		int absDistValue = (int) Math.abs(player.hitbox.x - hitbox.x);
+		return absDistValue <= attackDistance * 5;// range of view is 5 times the attackDistance
+	}
+
+	protected boolean isPlayerCloseForAttack(Player player) {
+		int absDistValue = (int) Math.abs(player.hitbox.x - hitbox.x);
+		return absDistValue <= attackDistance;
 	}
 
 	protected void newState(int enemyState) {
@@ -84,8 +96,11 @@ public abstract class Enemy extends Entity {
 		if (aniTick >= aniSpeed) {
 			aniTick = 0;
 			animIndex++;
-			if (animIndex >= GetSpriteAmount(enemyType, enemyState))
+			if (animIndex >= GetSpriteAmount(enemyType, enemyState)) {
 				animIndex = 0;
+				if (enemyState == ATTACK)
+					enemyState = IDLE;
+			}
 		}
 	}
 

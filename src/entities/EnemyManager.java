@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import gamestates.Playing;
 import utilities.LoadSave;
 import static utilities.Constants.EnemyConstants.*;
-import static utilities.Constants.PlayerConstants.GetSpriteAmount;
 
 public class EnemyManager {
 
@@ -27,9 +26,9 @@ public class EnemyManager {
 
 	}
 
-	public void update(int[][] lvlData) {
+	public void update(int[][] lvlData, Player player) {
 		for (Bablu c : bablus)
-			c.update(lvlData);
+			c.update(lvlData, player);
 	}
 
 	public void draw(Graphics g, int xLvlOffset, int yLvlOffset) {
@@ -54,7 +53,7 @@ public class EnemyManager {
 						BABLU_WIDTH_DEFAULT, BABLU_HEIGHT_DEFAULT);
 
 		for (int i = 0; i < babluArr[RUNNING_REVERSE].length; i++)
-			babluArr[RUNNING_REVERSE][i] = babluArr[RUNNING][GetSpriteAmount(RUNNING) - 1 - i];
+			babluArr[RUNNING_REVERSE][i] = babluArr[RUNNING][GetSpriteAmount(BABLU, RUNNING) - 1 - i];
 	}
 
 }
