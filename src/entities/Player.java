@@ -19,10 +19,10 @@ import utilities.LoadSave;
 
 public class Player extends Entity {
 	private BufferedImage[][] animations;
-	private int animTick, animIndex, animSpeed = 12;
+	private int animTick, animIndex, animSpeed = 22;
 	private int playerAction = IDLE;
 	private boolean moving = false, attacking = false;
-	private boolean left, up, right, down, jump, dash;
+	private boolean left, up, right, down, hit, jump, dash;
 	private float playerSpeed = 1.6f * Game.SCALE;
 	private int[][] lvlData;
 	private float xDrawOffset = 6.25f * Game.SCALE;
@@ -145,13 +145,13 @@ public class Player extends Entity {
 				animIndex = 0;
 				attacking = false;
 				attackChecked = false;
+				hit = false;
 			}
 		}
 	}
 
 	public void setAnimation() {
 		int startAnim = playerAction;
-
 		if (moving) {
 			if (right && !left)
 				playerAction = RUNNING;
@@ -172,6 +172,8 @@ public class Player extends Entity {
 
 		if (dash && (right || left || jump) && dashCooldown == 0)
 			playerAction = DASH;
+		if (hit)
+			playerAction = HIT;
 		if (startAnim != playerAction)
 			resetAnimTick();
 	}
@@ -291,6 +293,7 @@ public class Player extends Entity {
 		right = false;
 		up = false;
 		down = false;
+		jump = false;
 	}
 
 	public void resetAll() {
@@ -311,6 +314,10 @@ public class Player extends Entity {
 	public void resetDash() {
 		dashCooldown = 1.5f;
 		playerAction = IDLE;
+	}
+
+	public void gotHit() {
+		hit = true;
 	}
 
 	public void setAttacking(boolean attacking) {

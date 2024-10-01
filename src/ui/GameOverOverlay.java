@@ -13,7 +13,6 @@ public class GameOverOverlay {
 
 	public GameOverOverlay(Playing playing) {
 		this.playing = playing;
-		System.out.println("YEYEYEY");
 	}
 
 	public void draw(Graphics g) {
