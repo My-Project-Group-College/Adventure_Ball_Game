@@ -40,6 +40,24 @@ public class Constants {
 				return 0;
 			}
 		}
+
+		public static int GetMaxHealth(int enemy_type) {
+			switch (enemy_type) {
+			case BABLU:
+				return 3;
+			default:
+				return 1;
+			}
+		}
+
+		public static int GetEnemyDmg(int enemy_type) {
+			switch (enemy_type) {
+			case BABLU:
+				return 1;
+			default:
+				return 0;
+			}
+		}
 	}
 
 	public static class UI {
@@ -90,6 +108,8 @@ public class Constants {
 		public static final int DASH = 7;
 		public static final int RUNNING_REVERSE = 8;
 //		public static final int DASH_REVERSE = 9;
+
+		public static final int PLAYER_NORMAL_DAMAGE = 2;
 
 		public static int GetSpriteAmount(int player_action) {
 			switch (player_action) {

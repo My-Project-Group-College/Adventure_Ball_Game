@@ -1,10 +1,12 @@
 package entities;
 
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import gamestates.Playing;
+import utilities.Constants;
 import utilities.LoadSave;
 import static utilities.Constants.EnemyConstants.*;
 
@@ -27,21 +29,33 @@ public class EnemyManager {
 	}
 
 	public void update(int[][] lvlData, Player player) {
-		for (Bablu c : bablus)
-			c.update(lvlData, player);
+		for (Bablu b : bablus)
+			if (b.isActive())
+				b.update(lvlData, player);
 	}
 
 	public void draw(Graphics g, int xLvlOffset, int yLvlOffset) {
 		drawBablu(g, xLvlOffset, yLvlOffset);
-		for (Bablu c : bablus)
-			c.drawHitbox(g, xLvlOffset, yLvlOffset);
 	}
 
 	private void drawBablu(Graphics g, int xLvlOffset, int yLvlOffset) {
-		for (Bablu c : bablus)
-			g.drawImage(babluArr[c.getEnemyState()][c.getAnimIndex()],
-					(int) c.getHitbox().x - xLvlOffset - BABLU_DRAWOFFSET_X,
-					(int) c.getHitbox().y - yLvlOffset - BABLU_DRAWOFFSET_Y, BABLU_WIDTH, BABLU_HEIGHT, null);
+		for (Bablu b : bablus)
+			if (b.isActive()) {
+				g.drawImage(babluArr[b.getEnemyState()][b.getAnimIndex()],
+						(int) b.getHitbox().x - xLvlOffset - BABLU_DRAWOFFSET_X,
+						(int) b.getHitbox().y - yLvlOffset - BABLU_DRAWOFFSET_Y, BABLU_WIDTH, BABLU_HEIGHT, null);
+				b.drawHitbox(g, xLvlOffset, yLvlOffset);
+				b.drawAttackBox(g, xLvlOffset, yLvlOffset);
+			}
+	}
+
+	public void checkEnemyHit(Rectangle2D.Float attackBox) {
+		for (Bablu b : bablus)
+			if (b.isActive())
+				if (attackBox.intersects(b.getHitbox())) {
+					b.hurt(Constants.PlayerConstants.PLAYER_NORMAL_DAMAGE);// Damage Dealt Here
+					return;
+				}
 	}
 
 	private void LoadEnemyImages() {
@@ -54,6 +68,12 @@ public class EnemyManager {
 
 		for (int i = 0; i < babluArr[RUNNING_REVERSE].length; i++)
 			babluArr[RUNNING_REVERSE][i] = babluArr[RUNNING][GetSpriteAmount(BABLU, RUNNING) - 1 - i];
+	}
+
+	public void resetAllEnemies() {
+		for (Bablu b : bablus)
+			b.resetEnemy();
+
 	}
 
 }

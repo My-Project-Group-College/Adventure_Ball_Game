@@ -27,6 +27,7 @@ public class LoadSave {
 	public static final String VOLUME_BUTTONS = "/PauseMenu/volume_buttons.png";
 	public static final String LVL1_BACKGROUND = "/backgrounds/Background_1.png";
 	public static final String BABLU_SPRITE = "/sprites/BabluEnemySprite.png";
+	public static final String STATUS_BAR = "/HealthBar/health_power_bar.png";
 
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;
