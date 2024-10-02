@@ -18,10 +18,10 @@ public class Bablu extends Enemy {
 	public Bablu(float x, float y) {
 		super(x, y, BABLU_WIDTH, BABLU_HEIGHT, BABLU);
 		initHitbox(x, y, (int) (30 * Game.SCALE * 0.75), (int) (33 * Game.SCALE * 0.75));
-		initAttackBox(x, y);
+		initAttackBox();
 	}
 
-	private void initAttackBox(float x, float y) {
+	private void initAttackBox() {
 		attackBox = new Rectangle2D.Float(x, y, (int) (hitbox.width * 3), hitbox.height);
 		attackBoxOffsetX = (int) (hitbox.width);
 
@@ -50,11 +50,11 @@ public class Bablu extends Enemy {
 				break;
 			case RUNNING:
 			case RUNNING_REVERSE:
-				if (canSeePlayer(lvlData, player))
+				if (canSeePlayer(lvlData, player)) {
 					turnTowardsPlayer(player);
-				if (isPlayerCloseForAttack(player))
-					newState(ATTACK);
-
+					if (isPlayerCloseForAttack(player))
+						newState(ATTACK);
+				}
 				move(lvlData);
 				break;
 			case ATTACK:
@@ -84,8 +84,8 @@ public class Bablu extends Enemy {
 
 	public int flipW() {
 		if (walkDir == RIGHT)
-			return 1;
-		else
 			return -1;
+		else
+			return 1;
 	}
 }

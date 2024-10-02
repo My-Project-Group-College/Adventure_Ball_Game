@@ -2,15 +2,12 @@ package entities;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.time.Instant;
-import java.util.Timer;
-import java.util.concurrent.TimeUnit;
 
 import gamestates.Playing;
 
-import static utilities.Constants.Directions.*;
 import static utilities.Constants.PlayerConstants.*;
 import static utilities.HelpMethods.*;
 
@@ -25,8 +22,8 @@ public class Player extends Entity {
 	private boolean left, up, right, down, hit, jump, dash;
 	private float playerSpeed = 1.6f * Game.SCALE;
 	private int[][] lvlData;
-	private float xDrawOffset = 6.25f * Game.SCALE;
-	private float yDrawOffset = 10.5f * Game.SCALE;
+	private float xDrawOffset = 7.25f * Game.SCALE;
+	private float yDrawOffset = 12.5f * Game.SCALE;
 
 	// Jumping / Gravity
 	private float airSpeed = 0f;
@@ -71,12 +68,19 @@ public class Player extends Entity {
 		super(x, y, width, height);
 		this.playing = playing;
 		loadAnimations();
-		initHitbox(x, y, (int) (29 * Game.SCALE), (int) (28 * Game.SCALE));
-		initAttackBox(x, y);
+		initHitbox(x, y, (int) (27 * Game.SCALE), (int) (27 * Game.SCALE));
+		initAttackBox();
 	}
 
-	private void initAttackBox(float x, float y) {
-		attackBox = new Rectangle2D.Float(x, y, (int) (hitbox.width * 0.75), hitbox.height - (2 * Game.SCALE));
+	public void setSpawn(Point spawn) {
+		this.x = spawn.x;
+		this.y = spawn.y;
+		hitbox.x = x;
+		hitbox.y = y;
+	}
+
+	private void initAttackBox() {
+		attackBox = new Rectangle2D.Float(x, y, (int) (hitbox.width * 2.6), hitbox.height - (2 * Game.SCALE));
 	}
 
 	public void update() {
@@ -104,9 +108,9 @@ public class Player extends Entity {
 
 	private void updateAttackBox() {
 		if (right)
-			attackBox.x = hitbox.x + attackBox.width + (int) (Game.SCALE * 11);
+			attackBox.x = hitbox.x - (int) (hitbox.width * 0.6);
 		else if (left)
-			attackBox.x = hitbox.x - attackBox.width - (int) (Game.SCALE * 2);
+			attackBox.x = hitbox.x - attackBox.width + (int) (hitbox.width * 1.6);
 
 		attackBox.y = hitbox.y + (Game.SCALE * 2);
 	}

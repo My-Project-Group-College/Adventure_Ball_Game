@@ -1,8 +1,15 @@
 package utilities;
 
-import java.awt.Dimension;
-import java.awt.geom.Rectangle2D;
+import static utilities.Constants.EnemyConstants.BABLU;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
+import entities.Bablu;
 import main.Game;
 
 public class HelpMethods {
@@ -65,7 +72,11 @@ public class HelpMethods {
 	}
 
 	public static boolean IsFloor(Rectangle2D.Float hitbox, float xSpeed, int[][] lvlData) {
-		return IsSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, lvlData);
+		if (xSpeed > 0)
+			return IsSolid(hitbox.x + hitbox.width + xSpeed, hitbox.y + hitbox.height + 1, lvlData);
+		else
+			return IsSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, lvlData);
+
 	}
 
 	public static boolean IsAllTilesWalkable(int xStart, int xEnd, int y, int[][] lvlData) {
@@ -89,4 +100,44 @@ public class HelpMethods {
 			return IsAllTilesWalkable(xTile1, xTile2, yTile, lvlData);
 
 	}
+
+	public static int[][] GetLevelData(BufferedImage img) {
+		int[][] lvlData = new int[img.getHeight()][img.getWidth()];
+
+		for (int j = 0; j < img.getHeight(); j++)
+			for (int i = 0; i < img.getWidth(); i++) {
+				Color color = new Color(img.getRGB(i, j));
+				int value = color.getRed();
+				if (value >= 9)// size of levelSprite Image in LevelManager
+					value = 7;
+				lvlData[j][i] = value;
+			}
+		return lvlData;
+	}
+
+	public static ArrayList<Bablu> GetBablu(BufferedImage img) {
+		ArrayList<Bablu> list = new ArrayList<Bablu>();
+
+		for (int j = 0; j < img.getHeight(); j++)
+			for (int i = 0; i < img.getWidth(); i++) {
+				Color color = new Color(img.getRGB(i, j));
+				int value = color.getGreen();
+				if (value == BABLU)
+					list.add(new Bablu(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
+			}
+
+		return list;
+	}
+
+	public static Point GetPlayerSpawn(BufferedImage img) {
+		for (int j = 0; j < img.getHeight(); j++)
+			for (int i = 0; i < img.getWidth(); i++) {
+				Color color = new Color(img.getRGB(i, j));
+				int value = color.getGreen();
+				if (value == 48)
+					return new Point(i * Game.TILES_SIZE, j * Game.TILES_SIZE);
+			}
+		return new Point(3 * Game.TILES_SIZE, 2 * Game.TILES_SIZE);
+	}
+
 }

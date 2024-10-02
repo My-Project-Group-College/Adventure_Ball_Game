@@ -110,6 +110,7 @@ public class Constants {
 //		public static final int DASH_REVERSE = 9;
 
 		public static final int PLAYER_NORMAL_DAMAGE = 2;
+		public static final int PLAYER_DASH_DAMAGE = 3;
 
 		public static int GetSpriteAmount(int player_action) {
 			switch (player_action) {
