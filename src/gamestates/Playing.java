@@ -215,9 +215,9 @@ public class Playing extends State implements StateMethods {
 				player.resetDirBooleans();
 				GameState.state = GameState.MENU;
 				break;
-////		case KeyEvent.VK_ESCAPE:
-////			paused = !paused;
-////			break;
+			case KeyEvent.VK_ESCAPE:
+				paused = !paused;
+				break;
 
 			}
 	}

@@ -71,12 +71,12 @@ public class Player extends Entity {
 		super(x, y, width, height);
 		this.playing = playing;
 		loadAnimations();
-		initHitbox(x, y, (int) (29 * Game.SCALE), (int) (29 * Game.SCALE));
+		initHitbox(x, y, (int) (29 * Game.SCALE), (int) (28 * Game.SCALE));
 		initAttackBox(x, y);
 	}
 
 	private void initAttackBox(float x, float y) {
-		attackBox = new Rectangle2D.Float(x, y, (int) (hitbox.width * 0.75), hitbox.height);
+		attackBox = new Rectangle2D.Float(x, y, (int) (hitbox.width * 0.75), hitbox.height - (2 * Game.SCALE));
 	}
 
 	public void update() {
