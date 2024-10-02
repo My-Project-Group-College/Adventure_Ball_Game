@@ -3,6 +3,10 @@ package utilities;
 import main.Game;
 
 public class Constants {
+
+	public static final float GRAVITY = 0.04f * Game.SCALE;
+	public static final int ANIM_SPEED = 12;
+
 	public static class EnemyConstants {
 		public static final int BABLU = 0;
 

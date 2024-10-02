@@ -257,6 +257,7 @@ public class Playing extends State implements StateMethods {
 				GameState.state = GameState.MENU;
 				break;
 			case KeyEvent.VK_P:
+			case KeyEvent.VK_ESCAPE:
 				paused = !paused;
 				break;
 

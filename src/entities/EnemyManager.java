@@ -46,7 +46,7 @@ public class EnemyManager {
 	private void drawBablu(Graphics g, int xLvlOffset, int yLvlOffset) {
 		for (Bablu b : bablus)
 			if (b.isActive()) {
-				g.drawImage(babluArr[b.getEnemyState()][b.getAnimIndex()],
+				g.drawImage(babluArr[b.getState()][b.getAnimIndex()],
 						(int) b.getHitbox().x - xLvlOffset - BABLU_DRAWOFFSET_X,
 						(int) b.getHitbox().y - yLvlOffset - BABLU_DRAWOFFSET_Y, BABLU_WIDTH, BABLU_HEIGHT, null);
 				b.drawHitbox(g, xLvlOffset, yLvlOffset);
