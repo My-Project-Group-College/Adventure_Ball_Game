@@ -54,11 +54,11 @@ public class EnemyManager {
 			}
 	}
 
-	public void checkEnemyHit(Rectangle2D.Float attackBox) {
+	public void checkEnemyHit(Rectangle2D.Float attackBox, int damage) {
 		for (Bablu b : bablus)
 			if (b.isActive())
 				if (attackBox.intersects(b.getHitbox())) {
-					b.hurt(Constants.PlayerConstants.PLAYER_NORMAL_DAMAGE);// Damage Dealt Here
+					b.hurt(damage);
 					return;
 				}
 	}

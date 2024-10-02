@@ -182,8 +182,8 @@ public class Playing extends State implements StateMethods {
 		this.gameOver = gameOver;
 	}
 
-	public void checkEnemyHit(Rectangle2D.Float attackBox) {
-		enemyManager.checkEnemyHit(attackBox);
+	public void checkEnemyHit(Rectangle2D.Float attackBox, int damage) {
+		enemyManager.checkEnemyHit(attackBox, damage);
 	}
 
 	public void mouseDragged(MouseEvent e) {
@@ -256,7 +256,7 @@ public class Playing extends State implements StateMethods {
 				player.resetDirBooleans();
 				GameState.state = GameState.MENU;
 				break;
-			case KeyEvent.VK_ESCAPE:
+			case KeyEvent.VK_P:
 				paused = !paused;
 				break;
 

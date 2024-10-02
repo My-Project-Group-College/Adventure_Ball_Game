@@ -94,6 +94,8 @@ public class Player extends Entity {
 		updateAttackBox();
 		if (attacking)
 			checkAttack();
+		if (dash && dashCooldown == 0)
+			playing.checkEnemyHit(attackBox, PLAYER_DASH_DAMAGE);
 		updateAnimationTick();
 		setAnimation();
 
@@ -103,7 +105,7 @@ public class Player extends Entity {
 		if (attackChecked || animIndex != 1)
 			return;
 		attackChecked = true;
-		playing.checkEnemyHit(attackBox);
+		playing.checkEnemyHit(attackBox, PLAYER_NORMAL_DAMAGE);
 	}
 
 	private void updateAttackBox() {
