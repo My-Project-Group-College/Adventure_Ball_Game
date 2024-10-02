@@ -20,8 +20,8 @@ public class Player extends Entity {
 	private boolean moving = false, attacking = false;
 	private boolean left, right, hit, jump, dash;
 	private int[][] lvlData;
-	private float xDrawOffset = 7.25f * Game.SCALE;
-	private float yDrawOffset = 12.5f * Game.SCALE;
+	private float xDrawOffset = 5.75f * Game.SCALE;
+	private float yDrawOffset = 9.0f * Game.SCALE;
 
 	// Jumping / Gravity
 	private float jumpSpeed = -2.25f * Game.SCALE;
@@ -51,8 +51,8 @@ public class Player extends Entity {
 
 	public float dashCooldown = 0;
 
-	public static final int PLAYER_WIDTH = (int) (Game.TILES_SIZE * 1.35);
-	public static final int PLAYER_HEIGHT = (int) (Game.TILES_SIZE * 1.35);
+	public static final int PLAYER_WIDTH = (int) (Game.TILES_SIZE * 1.25);
+	public static final int PLAYER_HEIGHT = (int) (Game.TILES_SIZE * 1.25);
 
 	public Player(float x, float y, int width, int height, Playing playing) {
 		super(x, y, width, height);
