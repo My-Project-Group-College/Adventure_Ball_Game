@@ -1,6 +1,7 @@
 package utilities;
 
 import static utilities.Constants.EnemyConstants.BABLU;
+import static utilities.Constants.COIN;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 
 import entities.Bablu;
 import main.Game;
+import object.Coin;
 
 public class HelpMethods {
 	public static boolean CanMoveHere(float x, float y, float width, float height, int[][] lvlData) {
@@ -138,6 +140,20 @@ public class HelpMethods {
 					return new Point(i * Game.TILES_SIZE, j * Game.TILES_SIZE);
 			}
 		return new Point(3 * Game.TILES_SIZE, 2 * Game.TILES_SIZE);
+	}
+
+	public static ArrayList<Coin> GetCoins(BufferedImage img) {
+		ArrayList<Coin> list = new ArrayList<Coin>();
+
+		for (int j = 0; j < img.getHeight(); j++)
+			for (int i = 0; i < img.getWidth(); i++) {
+				Color color = new Color(img.getRGB(i, j));
+				int value = color.getBlue();
+				if (value == COIN)
+					list.add(new Coin(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
+			}
+
+		return list;
 	}
 
 }
