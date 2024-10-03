@@ -18,6 +18,7 @@ import object.ObjectManager;
 import ui.GameOverOverlay;
 import ui.LevelCompletedOverlay;
 import ui.PauseOverlay;
+import static utilities.Constants.PlayerConstants.DASH_READY;
 
 public class Playing extends State implements StateMethods {
 
@@ -83,10 +84,10 @@ public class Playing extends State implements StateMethods {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (player.dashCooldown > 0)
-					player.dashCooldown -= 0.5f;
+				if (player.dashCooldown < DASH_READY)
+					player.dashCooldown += 0.5f;
 //				System.out.println(player.dashCooldown);
-				if (player.dashCooldown == 0)
+				if (player.dashCooldown == DASH_READY)
 					count += 0.5;
 				if (count == 1.5) {
 					player.resetDash();
@@ -291,7 +292,7 @@ public class Playing extends State implements StateMethods {
 				break;
 			case KeyEvent.VK_SHIFT:
 				player.setDash(false);
-//			if (player.dashCooldown == 0)
+//			if (player.dashCooldown == DASH_READY)
 //				player.resetDash();
 				break;
 

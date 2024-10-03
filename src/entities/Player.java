@@ -49,7 +49,7 @@ public class Player extends Entity {
 
 	private Playing playing;
 
-	public float dashCooldown = 0;
+	public float dashCooldown = DASH_READY;
 
 	public static final int PLAYER_WIDTH = (int) (Game.TILES_SIZE * 1.25);
 	public static final int PLAYER_HEIGHT = (int) (Game.TILES_SIZE * 1.25);
@@ -88,7 +88,7 @@ public class Player extends Entity {
 		updateAttackBox();
 		if (attacking)
 			checkAttack();
-		if (dash && dashCooldown == 0)
+		if (dash && dashCooldown == DASH_READY)
 			playing.checkEnemyHit(attackBox, PLAYER_DASH_DAMAGE);
 		updateAnimationTick();
 		setAnimation();
@@ -163,7 +163,7 @@ public class Player extends Entity {
 		if (attacking)
 			state = ATTACK;
 
-		if (dash && (right || left || jump) && dashCooldown == 0)
+		if (dash && (right || left || jump) && dashCooldown == DASH_READY)
 			state = DASH;
 		if (hit)
 			state = HIT;
@@ -203,7 +203,7 @@ public class Player extends Entity {
 //			flipW = 1;
 //		}
 
-		if (dash && dashCooldown == 0) {
+		if (dash && dashCooldown == DASH_READY) {
 			if (left)
 				xSpeed -= 1.5f + walkSpeed;
 			xSpeed += 1.5f + walkSpeed;
@@ -303,7 +303,7 @@ public class Player extends Entity {
 	}
 
 	public void resetDash() {
-		dashCooldown = 1.5f;
+		dashCooldown = 0;
 		state = IDLE;
 	}
 

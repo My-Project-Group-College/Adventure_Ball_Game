@@ -6,6 +6,7 @@ public class Constants {
 
 	public static final float GRAVITY = 0.04f * Game.SCALE;
 	public static final int ANIM_SPEED = 12;
+	public static final int COIN = 0;
 
 	public static class EnemyConstants {
 		public static final int BABLU = 0;
@@ -115,6 +116,8 @@ public class Constants {
 
 		public static final int PLAYER_NORMAL_DAMAGE = 2;
 		public static final int PLAYER_DASH_DAMAGE = 10;
+
+		public static final float DASH_READY = 1.5f;
 
 		public static int GetSpriteAmount(int player_action) {
 			switch (player_action) {
