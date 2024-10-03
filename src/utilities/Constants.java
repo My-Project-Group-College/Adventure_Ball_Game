@@ -37,9 +37,9 @@ public class Constants {
 				case IDLE:
 					return 1;
 				case HIT:
-					return 2;
+					return 3;
 				case ATTACK:
-					return 2;
+					return 4;
 				}
 			default:
 				return 0;
@@ -124,14 +124,15 @@ public class Constants {
 			case RUNNING:
 			case RUNNING_REVERSE:
 				return 8;
+			case ATTACK:
+				return 6;
 			case DASH:
 //			case DASH_REVERSE:
 				return 4;
+			case HIT:
 			case JUMP:
 				return 3;
 			case GROUND:
-			case HIT:
-			case ATTACK:
 				return 2;
 			case IDLE:
 			case FALLING:

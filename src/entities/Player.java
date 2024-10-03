@@ -145,7 +145,9 @@ public class Player extends Entity {
 		if (right)
 			attackBox.x = hitbox.x - (int) (hitbox.width * 0.6);
 		else if (left)
-			attackBox.x = hitbox.x - attackBox.width + (int) (hitbox.width * 1.6);
+			attackBox.x = hitbox.x - hitbox.width;
+		else
+			attackBox.x = hitbox.x - (int) (hitbox.width * 0.8);
 
 		attackBox.y = hitbox.y + (Game.SCALE * 2);
 	}
@@ -252,6 +254,7 @@ public class Player extends Entity {
 				xSpeed -= 1.5f + walkSpeed;
 			else
 				xSpeed += 1.5f + walkSpeed;
+
 		}
 
 		if (!inAir && !IsEntityOnFloor(hitbox, lvlData))

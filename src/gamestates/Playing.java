@@ -326,7 +326,6 @@ public class Playing extends State implements StateMethods {
 
 	public void addTimeToTotal(int time) {
 		this.totalTimeUsed += time;
-		System.out.println(totalTimeUsed);
 	}
 
 	public ObjectManager getObjectManager() {
