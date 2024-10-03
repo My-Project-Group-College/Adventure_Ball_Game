@@ -206,6 +206,7 @@ public class Player extends Entity {
 		if (dash && dashCooldown == DASH_READY) {
 			if (left)
 				xSpeed -= 1.5f + walkSpeed;
+			else
 			xSpeed += 1.5f + walkSpeed;
 		}
 
