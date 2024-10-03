@@ -20,34 +20,25 @@ public class ObjectManager {
 	public ObjectManager(Playing playing) {
 		this.playing = playing;
 		loadImgs();
-
-		coins = new ArrayList<Coin>();
-		coins.add(new Coin(100, 200));
-		coins.add(new Coin(150, 300));
-		coins.add(new Coin(10, 20));
 	}
 
-//	public void checkObjectTouched(Rectangle2D.Float hitbox) {
-//		for (Potion p : potions)
-//			if (p.isActive()) {
-//				if (hitbox.intersects(p.getHitbox())) {
-//					p.setActive(false);
-//					applyEffectToPlayer(p);
-//				}
-//			}
-//	}
-//
-//	public void applyEffectToPlayer(Potion p) {
-//		if (p.getObjType() == RED_POTION)
-//			playing.getPlayer().changeHealth(RED_POTION_VALUE);
-//		else
-//			playing.getPlayer().changePower(BLUE_POTION_VALUE);
-//	}
+	public void checkObjectTouched(Rectangle2D.Float hitbox) {
+		for (Coin c : coins)
+			if (c.isActive()) {
+				if (hitbox.intersects(c.getHitbox())) {
+					c.setActive(false);
+					applyCoinToPlayer();
+				}
+			}
+	}
 
-//	public void loadObjects(Level newLevel) {
-//		potions = newLevel.getPotions();
-//		containers = newLevel.getContainers();
-//	}
+	public void applyCoinToPlayer() {
+		playing.getLevelManager().getCurrentLevel().addCoinCollected();
+	}
+
+	public void loadObjects(Level newLevel) {
+		coins = newLevel.getCoins();
+	}
 
 	private void loadImgs() {
 		BufferedImage tempCoin = LoadSave.GetSpriteAtlas(LoadSave.COIN_IMG);
@@ -55,6 +46,9 @@ public class ObjectManager {
 	}
 
 	public void update() {
+		for (Coin c : coins)
+			if (c.isActive())
+				c.updateHover();
 	}
 
 	public void draw(Graphics g, int xLvlOffset, int yLvlOffset) {
@@ -64,8 +58,9 @@ public class ObjectManager {
 	private void drawCoins(Graphics g, int xLvlOffset, int yLvlOffset) {
 		for (Coin c : coins)
 			if (c.isActive()) {
-				g.drawImage(coinImg, (int) (c.x - xLvlOffset), (int) (c.y - yLvlOffset),
-						(int) (Game.TILES_SIZE * 0.725), (int) (Game.TILES_SIZE * 0.725), null);
+				g.drawImage(coinImg, (int) (c.hitbox.x + c.getXOffset() - xLvlOffset),
+						(int) (c.hitbox.y + c.getYOffset() - yLvlOffset), (int) (Game.TILES_SIZE * 0.725),
+						(int) (Game.TILES_SIZE * 0.725), null);
 				c.drawHitbox(g, xLvlOffset, yLvlOffset);
 			}
 	}

@@ -43,6 +43,7 @@ public class Playing extends State implements StateMethods {
 
 	private boolean gameOver;
 	private boolean levelCompleted;
+	private int totalCoinColected;
 
 	public Playing(Game game) {
 		super(game);
@@ -52,6 +53,7 @@ public class Playing extends State implements StateMethods {
 	}
 
 	public void loadNextLevel() {
+		addCoinsToTotal(levelManager.getCurrentLevel().getCoinsCollected());
 		resetAll();
 		levelManager.loadNextLevel();
 		player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
@@ -59,6 +61,7 @@ public class Playing extends State implements StateMethods {
 
 	private void loadStartLevel() {
 		enemyManager.loadEnemies(levelManager.getCurrentLevel());
+		objectManager.loadObjects(levelManager.getCurrentLevel());
 	}
 
 	private void calcLvlOffset() {
@@ -185,6 +188,7 @@ public class Playing extends State implements StateMethods {
 		levelCompleted = false;
 		player.resetAll();
 		enemyManager.resetAllEnemies();
+		objectManager.resetAllObjects();
 	}
 
 	public void setGameOver(boolean gameOver) {
@@ -193,6 +197,10 @@ public class Playing extends State implements StateMethods {
 
 	public void checkEnemyHit(Rectangle2D.Float attackBox, int damage) {
 		enemyManager.checkEnemyHit(attackBox, damage);
+	}
+
+	public void checkCoinTouched(Rectangle2D.Float hitbox) {
+		objectManager.checkObjectTouched(hitbox);
 	}
 
 	public void mouseDragged(MouseEvent e) {
@@ -301,6 +309,18 @@ public class Playing extends State implements StateMethods {
 
 	public EnemyManager getEnemyManager() {
 		return enemyManager;
+	}
+
+	public LevelManager getLevelManager() {
+		return levelManager;
+	}
+
+	public void addCoinsToTotal(int coins) {
+		this.totalCoinColected += coins;
+	}
+
+	public ObjectManager getObjectManager() {
+		return objectManager;
 	}
 
 }

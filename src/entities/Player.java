@@ -79,13 +79,20 @@ public class Player extends Entity {
 
 	public void update() {
 		updateHealthBar();
+		updateDashCooldownBar();
 
 		if (currHealth <= 0) {
 			playing.setGameOver(true);
 			return;
 		}
-		updatePosition();
+
 		updateAttackBox();
+
+		updatePosition();
+
+		if (moving)
+			checkCoinTouched();
+
 		if (attacking)
 			checkAttack();
 		if (dash && dashCooldown == DASH_READY)
@@ -93,6 +100,14 @@ public class Player extends Entity {
 		updateAnimationTick();
 		setAnimation();
 
+	}
+
+	private void checkCoinTouched() {
+		playing.checkCoinTouched(hitbox);
+	}
+
+	private void updateDashCooldownBar() {
+		// TODO Dash CoolDown bar
 	}
 
 	private void checkAttack() {
