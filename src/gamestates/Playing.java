@@ -7,9 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
-
 import javax.swing.Timer;
-
 import entities.EnemyManager;
 import entities.Player;
 import levels.LevelManager;
@@ -39,11 +37,12 @@ public class Playing extends State implements StateMethods {
 	private int maxLvlOffsetX;
 	private int maxLvlOffsetY;
 	private Timer timer;
-	private ActionListener changesPerSecond;
+	private ActionListener changesPerTick;
 
 	private boolean gameOver;
 	private boolean levelCompleted;
 	private int totalCoinColected;
+	private int totalTimeUsed;
 
 	public Playing(Game game) {
 		super(game);
@@ -53,7 +52,7 @@ public class Playing extends State implements StateMethods {
 	}
 
 	public void loadNextLevel() {
-		addCoinsToTotal(levelManager.getCurrentLevel().getCoinsCollected());
+		addCoinsToTotal(levelManager.getCoinsCollected());
 		resetAll();
 		levelManager.loadNextLevel();
 		player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
@@ -82,24 +81,29 @@ public class Playing extends State implements StateMethods {
 		levelCompletedOverlay = new LevelCompletedOverlay(this);
 		gameOverOverlay = new GameOverOverlay(this);
 
-		changesPerSecond = new ActionListener() {
+		changesPerTick = new ActionListener() {
 			private float count = 0;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (!paused && !gameOver && !levelCompleted && GameState.state == GameState.PLAYING)
+					levelManager.timeTick();
 				if (player.dashCooldown < DASH_READY)
-					player.dashCooldown += 0.5f;
+					player.dashCooldown += 0.015f;
 //				System.out.println(player.dashCooldown);
-				if (player.dashCooldown == DASH_READY)
-					count += 0.5;
-				if (count == 1.5) {
+				if (player.dashCooldown >= DASH_READY) {
+					count += 0.01;
+					player.dashCooldown = DASH_READY;
+				}
+				if (count >= 1.5 && player.dashCooldown >= DASH_READY) {
 					player.resetDash();
 					count = 0;
+
 				}
 
 			}
 		};
-		timer = new Timer(500, changesPerSecond);
+		timer = new Timer(10, changesPerTick);
 		timer.start();
 
 	}
@@ -189,6 +193,7 @@ public class Playing extends State implements StateMethods {
 		player.resetAll();
 		enemyManager.resetAllEnemies();
 		objectManager.resetAllObjects();
+		levelManager.resetAll();
 	}
 
 	public void setGameOver(boolean gameOver) {
@@ -319,8 +324,21 @@ public class Playing extends State implements StateMethods {
 		this.totalCoinColected += coins;
 	}
 
+	public void addTimeToTotal(int time) {
+		this.totalTimeUsed += time;
+		System.out.println(totalTimeUsed);
+	}
+
 	public ObjectManager getObjectManager() {
 		return objectManager;
+	}
+
+	public int getTotalCoinColected() {
+		return totalCoinColected;
+	}
+
+	public int getTotalTimeUsed() {
+		return totalTimeUsed;
 	}
 
 }

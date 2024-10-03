@@ -1,12 +1,14 @@
 package entities;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import gamestates.Playing;
+import levels.LevelManager;
 
 import static utilities.Constants.PlayerConstants.*;
 import static utilities.Constants.*;
@@ -54,6 +56,11 @@ public class Player extends Entity {
 	public static final int PLAYER_WIDTH = (int) (Game.TILES_SIZE * 1.25);
 	public static final int PLAYER_HEIGHT = (int) (Game.TILES_SIZE * 1.25);
 
+	private String coinsString;
+	private String timeString;
+	private int totalTimeRemaining;
+	private int timeInMilli, timeInSecs, timeInMins;
+
 	public Player(float x, float y, int width, int height, Playing playing) {
 		super(x, y, width, height);
 		this.playing = playing;
@@ -64,6 +71,9 @@ public class Player extends Entity {
 		loadAnimations();
 		initHitbox(27, 27);
 		initAttackBox();
+		coinsString = "Coins : 0";
+		timeString = "Time:  0:0:0";
+
 	}
 
 	public void setSpawn(Point spawn) {
@@ -78,6 +88,8 @@ public class Player extends Entity {
 	}
 
 	public void update() {
+		updateTime();
+		updateStrings();
 		updateHealthBar();
 		updateDashCooldownBar();
 
@@ -95,11 +107,23 @@ public class Player extends Entity {
 
 		if (attacking)
 			checkAttack();
-		if (dash && dashCooldown == DASH_READY)
+		if (dash && dashCooldown >= DASH_READY)
 			playing.checkEnemyHit(attackBox, PLAYER_DASH_DAMAGE);
 		updateAnimationTick();
 		setAnimation();
 
+	}
+
+	private void updateTime() {
+		totalTimeRemaining = playing.getLevelManager().timeRemaining();
+		timeInMilli = (totalTimeRemaining % 1000) / 10;
+		timeInSecs = (totalTimeRemaining / 1000) % 60;
+		timeInMins = (totalTimeRemaining / 60000) % 60;
+	}
+
+	private void updateStrings() {
+		coinsString = "Coins: " + playing.getLevelManager().getCoinsCollected();
+		timeString = String.format("Time: %02d:%02d:%02d", timeInMins, timeInSecs, timeInMilli);
 	}
 
 	private void checkCoinTouched() {
@@ -142,6 +166,11 @@ public class Player extends Entity {
 		g.drawImage(statusBarImg, statusBarX, statusBarY, statusBarWidth, statusBarHeight, null);
 		g.setColor(Color.RED);
 		g.fillRect(healthBarXStart + statusBarX, healthBarYStart + statusBarY, healthWidth, healthBarHeight);
+
+		g.setColor(new Color(0, 0, 0, 200));
+		g.setFont(new Font("Purisa", Font.BOLD, 50));
+		g.drawString(coinsString, Game.GAME_WIDTH - (int) (150 * Game.SCALE), Game.TILES_SIZE);
+		g.drawString(timeString, Game.GAME_WIDTH - (int) (225 * Game.SCALE), Game.TILES_SIZE * 2);
 	}
 
 	private void updateAnimationTick() {
@@ -178,7 +207,7 @@ public class Player extends Entity {
 		if (attacking)
 			state = ATTACK;
 
-		if (dash && (right || left || jump) && dashCooldown == DASH_READY)
+		if (dash && (right || left || jump) && dashCooldown >= DASH_READY)
 			state = DASH;
 		if (hit)
 			state = HIT;
@@ -218,11 +247,11 @@ public class Player extends Entity {
 //			flipW = 1;
 //		}
 
-		if (dash && dashCooldown == DASH_READY) {
+		if (dash && dashCooldown >= DASH_READY) {
 			if (left)
 				xSpeed -= 1.5f + walkSpeed;
 			else
-			xSpeed += 1.5f + walkSpeed;
+				xSpeed += 1.5f + walkSpeed;
 		}
 
 		if (!inAir && !IsEntityOnFloor(hitbox, lvlData))
@@ -310,6 +339,7 @@ public class Player extends Entity {
 		moving = false;
 		state = IDLE;
 		currHealth = maxHealth;
+		dashCooldown = DASH_READY;
 
 		hitbox.x = x;
 		hitbox.y = y;

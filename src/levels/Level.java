@@ -23,7 +23,6 @@ public class Level {
 	private int maxLvlOffsetX;
 	private int maxLvlOffsetY;
 	private Point playerSpawn;
-	private int coinsCollected;
 
 	public Level(BufferedImage img) {
 		this.img = img;
@@ -32,6 +31,9 @@ public class Level {
 		createCoins();
 		calcLvlOffsets();
 		calcPlayerSpawn();
+//		// Testing Coins
+//		coins = new ArrayList<Coin>();
+//		coins.add(new Coin(32 * 6, 32 * 10));
 	}
 
 	private void createCoins() {
@@ -81,14 +83,6 @@ public class Level {
 
 	public Point getPlayerSpawn() {
 		return playerSpawn;
-	}
-
-	public void addCoinCollected() {
-		this.coinsCollected++;
-	}
-
-	public int getCoinsCollected() {
-		return coinsCollected;
 	}
 
 	public ArrayList<Coin> getCoins() {
