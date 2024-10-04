@@ -4,9 +4,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 
+import gamestates.GameOptions;
 import gamestates.GameState;
 import gamestates.Menu;
 import gamestates.Playing;
+import ui.AudioOptions;
 
 public class Game implements Runnable {
 	private GameWindow gameWindow;
@@ -17,6 +19,8 @@ public class Game implements Runnable {
 
 	private Playing playing;
 	private Menu menu;
+	private GameOptions gameOptions;
+	private AudioOptions audioOptions;
 
 	public final static int TILES_DEFAULT_SIZE = 32;
 	public final static Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
@@ -41,8 +45,10 @@ public class Game implements Runnable {
 	}
 
 	private void initClasses() {
+		audioOptions = new AudioOptions();
 		menu = new Menu(this);
 		playing = new Playing(this);
+		gameOptions = new GameOptions(this);
 	}
 
 	private void startGameLoop() {
@@ -58,6 +64,9 @@ public class Game implements Runnable {
 		case PLAYING:
 			playing.update();
 			break;
+		case OPTIONS:
+			gameOptions.update();
+			break;
 		default:
 			break;
 		}
@@ -72,6 +81,8 @@ public class Game implements Runnable {
 			playing.draw(g);
 			break;
 		case OPTIONS:
+			gameOptions.draw(g);
+			break;
 		case QUIT:
 		default:
 			System.exit(0);
@@ -133,4 +144,13 @@ public class Game implements Runnable {
 	public Menu getMenu() {
 		return menu;
 	}
+
+	public GameOptions getGameOptions() {
+		return gameOptions;
+	}
+
+	public AudioOptions getAudioOptions() {
+		return audioOptions;
+	}
+
 }

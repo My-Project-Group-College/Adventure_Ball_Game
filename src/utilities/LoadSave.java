@@ -20,6 +20,7 @@ public class LoadSave {
 	public static final String SOUND_BUTTONS = "/MenusAndBars/sound_button.png";
 	public static final String URM_BUTTONS = "/MenusAndBars/urm_buttons.png";
 	public static final String VOLUME_BUTTONS = "/MenusAndBars/volume_buttons.png";
+	public static final String OPTIONS_MENU = "/MenusAndBars/options_background.png";
 	public static final String LVL1_BACKGROUND = "/backgrounds/Background_1.png";
 	public static final String LVL2_BACKGROUND = "/backgrounds/Background_2.png";
 	public static final String BABLU_SPRITE = "/sprites/BabluEnemySprite.png";
