@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import entities.Bablu;
 import main.Game;
 import object.Coin;
+import object.Spike;
 import utilities.HelpMethods;
 
 import static utilities.HelpMethods.*;
@@ -16,6 +17,7 @@ public class Level {
 	private int[][] lvlData;
 	private ArrayList<Bablu> bablus;
 	private ArrayList<Coin> coins;
+	private ArrayList<Spike> spikes;
 	private int lvlTilesWide;
 	private int lvlTilesTall;
 	private int maxTilesOffsetX;
@@ -29,11 +31,16 @@ public class Level {
 		createLvlData();
 		createEnimies();
 		createCoins();
+		createSpikes();
 		calcLvlOffsets();
 		calcPlayerSpawn();
 //		// Testing Coins
 //		coins = new ArrayList<Coin>();
 //		coins.add(new Coin(32 * 6, 32 * 10));
+	}
+
+	private void createSpikes() {
+		spikes = HelpMethods.GetSpikes(img);
 	}
 
 	private void createCoins() {
@@ -87,6 +94,10 @@ public class Level {
 
 	public ArrayList<Coin> getCoins() {
 		return coins;
+	}
+
+	public ArrayList<Spike> getSpikes() {
+		return spikes;
 	}
 
 }

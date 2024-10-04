@@ -102,8 +102,10 @@ public class Player extends Entity {
 
 		updatePosition();
 
-		if (moving)
+		if (moving) {
 			checkCoinTouched();
+			checkSpikesTouched();
+		}
 
 		if (attacking)
 			checkAttack();
@@ -112,6 +114,10 @@ public class Player extends Entity {
 		updateAnimationTick();
 		setAnimation();
 
+	}
+
+	private void checkSpikesTouched() {
+		playing.checkSpikeTouched(this);
 	}
 
 	private void updateTime() {
@@ -390,6 +396,10 @@ public class Player extends Entity {
 
 	public boolean isDash() {
 		return dash;
+	}
+
+	public void kill() {
+		currHealth = 0;
 	}
 
 	public void setDash(boolean dash) {

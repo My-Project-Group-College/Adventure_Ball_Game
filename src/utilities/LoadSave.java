@@ -1,19 +1,13 @@
 package utilities;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-
-import entities.Bablu;
-import main.Game;
-import static utilities.Constants.EnemyConstants.*;
 
 public class LoadSave {
 	public static final String PLAYER_ATLAS = "/sprites/playerSprite.png";
@@ -89,34 +83,4 @@ public class LoadSave {
 			}
 		return imgs;
 	}
-
-//	public static ArrayList<Bablu> GetBablu() {
-//		BufferedImage img = GetSpriteAtlas(LEVEL_ONE_DATA);
-//		ArrayList<Bablu> list = new ArrayList<Bablu>();
-//
-//		for (int j = 0; j < img.getHeight(); j++)
-//			for (int i = 0; i < img.getWidth(); i++) {
-//				Color color = new Color(img.getRGB(i, j));
-//				int value = color.getGreen();
-//				if (value == BABLU)
-//					list.add(new Bablu(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
-//			}
-//
-//		return list;
-//	}
-//
-//	public static int[][] GetLevelData() {
-//		BufferedImage img = GetSpriteAtlas(LEVEL_ONE_DATA);
-//		int[][] lvlData = new int[img.getHeight()][img.getWidth()];
-//
-//		for (int j = 0; j < img.getHeight(); j++)
-//			for (int i = 0; i < img.getWidth(); i++) {
-//				Color color = new Color(img.getRGB(i, j));
-//				int value = color.getRed();
-//				if (value >= 9)// size of levelSprite Image in LevelManager
-//					value = 0;
-//				lvlData[j][i] = value;
-//			}
-//		return lvlData;
-//	}
 }

@@ -1,6 +1,7 @@
 package utilities;
 
 import static utilities.Constants.EnemyConstants.BABLU;
+import static utilities.Constants.SPIKE;
 import static utilities.Constants.COIN;
 
 import java.awt.Color;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import entities.Bablu;
 import main.Game;
 import object.Coin;
+import object.Spike;
 
 public class HelpMethods {
 	public static boolean CanMoveHere(float x, float y, float width, float height, int[][] lvlData) {
@@ -151,6 +153,20 @@ public class HelpMethods {
 				int value = color.getBlue();
 				if (value == COIN)
 					list.add(new Coin(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
+			}
+
+		return list;
+	}
+
+	public static ArrayList<Spike> GetSpikes(BufferedImage img) {
+		ArrayList<Spike> list = new ArrayList<Spike>();
+
+		for (int j = 0; j < img.getHeight(); j++)
+			for (int i = 0; i < img.getWidth(); i++) {
+				Color color = new Color(img.getRGB(i, j));
+				int value = color.getBlue();
+				if (value == SPIKE)
+					list.add(new Spike(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
 			}
 
 		return list;

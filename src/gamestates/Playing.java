@@ -208,6 +208,10 @@ public class Playing extends State implements StateMethods {
 		objectManager.checkObjectTouched(hitbox);
 	}
 
+	public void checkSpikeTouched(Player p) {
+		objectManager.checkSpikeTouched(p);
+	}
+
 	public void mouseDragged(MouseEvent e) {
 		if (!gameOver && !levelCompleted)
 			if (paused)

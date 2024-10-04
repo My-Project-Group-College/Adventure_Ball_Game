@@ -7,6 +7,8 @@ public class Constants {
 	public static final float GRAVITY = 0.04f * Game.SCALE;
 	public static final int ANIM_SPEED = 12;
 	public static final int COIN = 30;
+	public static final int SPIKE = 4;
+	public static final int SPIKE_DAMAGE = 20;
 
 	public static class EnemyConstants {
 		public static final int BABLU = 0;
