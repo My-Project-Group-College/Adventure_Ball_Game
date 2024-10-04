@@ -27,6 +27,7 @@ public class Level {
 	private Point playerSpawn;
 	private int totalTime, timePassed;
 	private int coinsCollected;
+	private int highScore = 0;
 
 	public Level(BufferedImage img) {
 		this.img = img;
@@ -136,6 +137,14 @@ public class Level {
 
 	public int getCoinsCollected() {
 		return coinsCollected;
+	}
+
+	public int getHighScore() {
+		return highScore;
+	}
+
+	public void setHighScore(int highScore) {
+		this.highScore = highScore;
 	}
 
 }

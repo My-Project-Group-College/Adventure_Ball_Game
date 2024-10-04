@@ -172,4 +172,8 @@ public class HelpMethods {
 		return list;
 	}
 
+	public static int CalcScore(int coins, int timeRemaining) {
+		return (int) (((coins * 100) / 5) + ((timeRemaining * 3) / 583));
+	}
+
 }

@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -8,7 +9,12 @@ import java.awt.image.BufferedImage;
 import gamestates.GameState;
 import gamestates.Playing;
 import main.Game;
+import utilities.HelpMethods;
 import utilities.LoadSave;
+
+import static utilities.Constants.HIGHSCORE;
+import static utilities.Constants.NEW_HIGHSCORE;
+import static utilities.Constants.SCORE;
 import static utilities.Constants.UI.URMButtons.*;
 
 public class GameCompletedOverlay {
@@ -17,6 +23,9 @@ public class GameCompletedOverlay {
 	private URMButton menu;
 	private BufferedImage img;
 	private int bgX, bgY, bgW, bgH;
+	public static boolean GameCompleted = false;
+	private boolean newHighScore, firstCheck;
+	private int score, highScore;
 
 	public GameCompletedOverlay(Playing playing) {
 		this.playing = playing;
@@ -44,9 +53,31 @@ public class GameCompletedOverlay {
 
 		g.drawImage(img, bgX, bgY, bgW, bgH, null);
 		menu.draw(g);
+
+		g.setColor(new Color(255, 255, 255, 200));
+		g.setFont(LoadSave.GetMinecraft_Font().deriveFont(Font.BOLD, 50));
+		if (newHighScore)
+			g.drawString("New", NEW_HIGHSCORE.x, NEW_HIGHSCORE.y);
+		g.drawString("HighScore: " + highScore, HIGHSCORE.x, HIGHSCORE.y);
+		g.drawString("Score: " + score, SCORE.x, SCORE.y);
+	}
+
+	private boolean checkAndUpdateScores() {
+		score = (int) HelpMethods.CalcScore(playing.getTotalCoinCollected(), playing.getTotalTimeRemaining());
+		highScore = playing.getHighScore();
+		if (score > highScore) {
+			playing.setHighScore(score);
+			highScore = score;
+			return true;
+		}
+		return false;
 	}
 
 	public void update() {
+		if (!firstCheck) {
+			newHighScore = checkAndUpdateScores();
+			firstCheck = true;
+		}
 		menu.update();
 	}
 
@@ -63,6 +94,8 @@ public class GameCompletedOverlay {
 	public void mouseReleased(MouseEvent e) {
 		if (isIn(menu, e))
 			if (menu.isMousePressed()) {
+				firstCheck = false;
+				LevelCompletedOverlay.GameCompleted = false;
 				// Game Completed Here
 				System.out.println("Game Completed");
 				System.out.println("Coins: " + playing.getGame().getPlaying().getTotalCoinCollected());

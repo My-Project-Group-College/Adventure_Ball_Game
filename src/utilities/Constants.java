@@ -1,5 +1,7 @@
 package utilities;
 
+import java.awt.Point;
+
 import main.Game;
 
 public class Constants {
@@ -9,6 +11,12 @@ public class Constants {
 	public static final int COIN = 30;
 	public static final int SPIKE = 4;
 	public static final int SPIKE_DAMAGE = 20;
+
+	public static final Point NEW_HIGHSCORE = new Point(Game.TILES_SIZE,
+			(int) ((Game.TILES_IN_HEIGHT - 3) * Game.TILES_SIZE));
+	public static final Point HIGHSCORE = new Point(Game.TILES_SIZE,
+			(int) ((Game.TILES_IN_HEIGHT - 2) * Game.TILES_SIZE));
+	public static final Point SCORE = new Point(Game.TILES_SIZE, (int) ((Game.TILES_IN_HEIGHT - 1) * Game.TILES_SIZE));
 
 	public static class EnemyConstants {
 		public static final int BABLU = 0;

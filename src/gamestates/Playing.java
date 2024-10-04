@@ -16,6 +16,8 @@ import object.ObjectManager;
 import ui.GameOverOverlay;
 import ui.LevelCompletedOverlay;
 import ui.PauseOverlay;
+import utilities.LoadSave;
+
 import static utilities.Constants.PlayerConstants.DASH_READY;
 
 public class Playing extends State implements StateMethods {
@@ -43,12 +45,18 @@ public class Playing extends State implements StateMethods {
 	private boolean levelCompleted;
 	private int totalCoinCollected;
 	private int totalTimeUsed;
+	private int highScore;
 
 	public Playing(Game game) {
 		super(game);
 		initClasses();
 		calcLvlOffset();
 		loadStartLevel();
+
+		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+			LoadSave.WriteScores(this, levelManager.getHighScoreArray());
+		}));
+
 	}
 
 	public void loadNextLevel() {
@@ -60,6 +68,7 @@ public class Playing extends State implements StateMethods {
 	private void loadStartLevel() {
 		enemyManager.loadEnemies(levelManager.getCurrentLevel());
 		objectManager.loadObjects(levelManager.getCurrentLevel());
+		highScore = levelManager.tempTotalHighScore;
 	}
 
 	private void calcLvlOffset() {
@@ -376,6 +385,18 @@ public class Playing extends State implements StateMethods {
 
 	public int getTotalTimeUsed() {
 		return totalTimeUsed;
+	}
+
+	public int getHighScore() {
+		return highScore;
+	}
+
+	public void setHighScore(int highScore) {
+		this.highScore = highScore;
+	}
+
+	public int getTotalTimeRemaining() {
+		return levelManager.getMaxTimeForAllLevels() - totalTimeUsed;
 	}
 
 }

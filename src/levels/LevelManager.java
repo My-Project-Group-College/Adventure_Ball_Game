@@ -14,6 +14,7 @@ public class LevelManager {
 	private ArrayList<Level> levels;
 	private int lvlIndex = 0;
 	private BufferedImage[] bg;
+	public int tempTotalHighScore;
 
 	public LevelManager(Game game) {
 		this.game = game;
@@ -21,7 +22,7 @@ public class LevelManager {
 		levels = new ArrayList<Level>();
 		loadBackgrounds();
 		buildAllLevels();
-
+		putHighScores(LoadSave.ReadScores(levels.size() + 1));
 	}
 
 	private void loadBackgrounds() {
@@ -36,7 +37,7 @@ public class LevelManager {
 		lvlIndex++;
 		if (lvlIndex >= levels.size())
 			lvlIndex = 0;
-		
+
 		Level newLevel = levels.get(lvlIndex);
 		game.getPlaying().getEnemyManager().loadEnemies(newLevel);
 		game.getPlaying().getPlayer().loadLvlData(newLevel.getLvlData());
@@ -93,6 +94,26 @@ public class LevelManager {
 
 	public int getLvlIndex() {
 		return lvlIndex;
+	}
+
+	public int getMaxTimeForAllLevels() {
+		int time = 0;
+		for (Level l : levels)
+			time += l.getTotalTime();
+		return time;
+	}
+
+	public int[] getHighScoreArray() {
+		int[] highScores = new int[levels.size()];
+		for (int i = 0; i < levels.size(); i++)
+			highScores[i] = levels.get(i).getHighScore();
+		return highScores;
+	}
+
+	public void putHighScores(int[] highScores) {
+		tempTotalHighScore = highScores[0];
+		for (int i = 1; i < highScores.length; i++)
+			levels.get(i - 1).setHighScore(highScores[i]);
 	}
 
 }

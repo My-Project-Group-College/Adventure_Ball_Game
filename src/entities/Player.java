@@ -181,7 +181,7 @@ public class Player extends Entity {
 		g.fillRect(healthBarXStart + statusBarX, healthBarYStart + statusBarY, healthWidth, healthBarHeight);
 
 		g.setColor(new Color(0, 0, 0, 200));
-		g.setFont(LoadSave.getMinecraft_Font().deriveFont(Font.BOLD, 50));
+		g.setFont(LoadSave.GetMinecraft_Font().deriveFont(Font.BOLD, 50));
 		g.drawString(coinsString, Game.GAME_WIDTH - (int) (150 * Game.SCALE), Game.TILES_SIZE);
 		g.drawString(timeString, Game.GAME_WIDTH - (int) (225 * Game.SCALE), Game.TILES_SIZE * 2);
 	}

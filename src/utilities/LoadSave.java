@@ -4,13 +4,21 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+
+import gamestates.Playing;
+
+import gamestates.Playing;
 
 public class LoadSave {
 
@@ -37,7 +45,8 @@ public class LoadSave {
 	public static final String COIN_IMG = "/objectNcoin/coin.png";
 	public static final String SPIKES_IMG = "/objectNcoin/spikes.png";
 	public static final String DEATH_SCREEN = "/MenusAndBars/death_screen.png";
-	public static final String MINECRAFT_FONT_FILE = "";
+	public static final String MINECRAFT_FONT_FILE = "minecraft_font.tff";
+	public static final String SCORES_FILE = "scores.txt";
 
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;
@@ -106,8 +115,39 @@ public class LoadSave {
 		}
 	}
 
-	public static Font getMinecraft_Font() {
+	public static Font GetMinecraft_Font() {
 		return Minecraft_Font;
+	}
+
+	public static void WriteScores(Playing playing, int... highscores) {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(SCORES_FILE))) {
+			writer.write(playing.getHighScore() + "\n");
+			for (int h : highscores)
+				writer.write(h + "\n");
+
+		} catch (IOException e) {
+			System.err.println("Error writing to file: " + e.getMessage());
+		}
+	}
+
+	public static int[] ReadScores(int count) {
+		int[] scores = new int[count];
+		try (BufferedReader reader = new BufferedReader(new FileReader(SCORES_FILE))) {
+			for (int i = 0; i < count; i++) {
+				String line = reader.readLine();
+				if (line == null) {
+					throw new IOException("Unexpected end of file. Expected " + count + " scores, but found only " + i);
+				}
+				scores[i] = Integer.parseInt(line.trim());
+			}
+		} catch (IOException e) {
+			System.err.println("Error reading from file: " + e.getMessage());
+			return null;
+		} catch (NumberFormatException e) {
+			System.err.println("Invalid number format in file: " + e.getMessage());
+			return null;
+		}
+		return scores;
 	}
 
 }
