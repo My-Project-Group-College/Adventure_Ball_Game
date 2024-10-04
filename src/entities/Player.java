@@ -41,8 +41,13 @@ public class Player extends Entity {
 	private int healthBarHeight = (int) (4 * Game.SCALE);
 	private int healthBarXStart = (int) (34 * Game.SCALE);
 	private int healthBarYStart = (int) (14 * Game.SCALE);
-
 	private int healthWidth = healthBarWidth;
+
+	private int dashBarWidth = (int) (104 * Game.SCALE);
+	private int dashBarHeight = (int) (2 * Game.SCALE);
+	private int dashBarXStart = (int) (44 * Game.SCALE);
+	private int dashBarYStart = (int) (34 * Game.SCALE);
+	private int dashWidth = dashBarWidth;
 
 	private int flipX = 0;
 	private int flipW = 1;
@@ -91,7 +96,7 @@ public class Player extends Entity {
 		updateTime();
 		updateStrings();
 		updateHealthBar();
-		updateDashCooldownBar();
+		updateDashBar();
 
 		if (currHealth <= 0 || playing.getLevelManager().getCurrentLevel().getTimePassed() >= playing.getLevelManager()
 				.getCurrentLevel().getTotalTime()) {
@@ -139,14 +144,21 @@ public class Player extends Entity {
 		playing.checkCoinTouched(hitbox);
 	}
 
-	private void updateDashCooldownBar() {
-		// TODO Dash CoolDown bar
+	private void updateDashBar() {
+
+		if (dashCooldown >= DASH_READY)
+			dashCooldown = DASH_READY;
+		else if (dashCooldown <= 0)
+			dashCooldown = 0;
+
+		dashWidth = (int) ((dashCooldown / (float) DASH_READY) * dashBarWidth);
 	}
 
 	private void checkAttack() {
 		if (attackChecked || animIndex != 1)
 			return;
 		attackChecked = true;
+		playing.getGame().getAudioPlayer().playAttackSound();
 		playing.checkEnemyHit(attackBox, PLAYER_NORMAL_DAMAGE);
 	}
 
@@ -176,10 +188,17 @@ public class Player extends Entity {
 	}
 
 	private void drawUI(Graphics g) {
+		// Status Bar
 		g.drawImage(statusBarImg, statusBarX, statusBarY, statusBarWidth, statusBarHeight, null);
+		// Health Bar
 		g.setColor(Color.RED);
 		g.fillRect(healthBarXStart + statusBarX, healthBarYStart + statusBarY, healthWidth, healthBarHeight);
 
+		// Status Bar
+		g.setColor(Color.GREEN);
+		g.fillRect(dashBarXStart + statusBarX, dashBarYStart + statusBarY, dashWidth, dashBarHeight);
+
+		// Coins And Time String
 		g.setColor(new Color(0, 0, 0, 200));
 		g.setFont(LoadSave.GetMinecraft_Font().deriveFont(Font.BOLD, 50));
 		g.drawString(coinsString, Game.GAME_WIDTH - (int) (150 * Game.SCALE), Game.TILES_SIZE);

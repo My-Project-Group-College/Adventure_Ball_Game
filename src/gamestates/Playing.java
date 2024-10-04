@@ -99,9 +99,8 @@ public class Playing extends State implements StateMethods {
 				if (player.dashCooldown < DASH_READY)
 					player.dashCooldown += 0.015f;
 //				System.out.println(player.dashCooldown);
-				if (player.dashCooldown >= DASH_READY) {
+				if (player.dashCooldown >= DASH_READY && player.isDash()) {
 					count += 0.01;
-					player.dashCooldown = DASH_READY;
 				}
 				if (count >= 1.5 && player.dashCooldown >= DASH_READY) {
 					player.resetDash();
