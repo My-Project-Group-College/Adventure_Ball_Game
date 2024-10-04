@@ -54,6 +54,8 @@ public abstract class Entity {
 	}
 
 	public int getAnimIndex() {
+		if (animIndex >= 8)
+			animIndex = 8;
 		return animIndex;
 	}
 

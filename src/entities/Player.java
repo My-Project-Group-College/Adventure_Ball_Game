@@ -165,8 +165,10 @@ public class Player extends Entity {
 	public void render(Graphics g, int xLvlOffset, int yLvlOffset) {
 		g.drawImage(animations[state][animIndex], (int) (hitbox.x - xDrawOffset) - xLvlOffset,
 				(int) (hitbox.y - yDrawOffset) - yLvlOffset, PLAYER_WIDTH, PLAYER_HEIGHT, null);
-		drawHitbox(g, xLvlOffset, yLvlOffset);
-		drawAttackBox(g, xLvlOffset, yLvlOffset);
+		if (Game.getHitboxStatus()) {
+			drawHitbox(g, xLvlOffset, yLvlOffset);
+			drawAttackBox(g, xLvlOffset, yLvlOffset);
+		}
 		drawUI(g);
 	}
 
@@ -176,7 +178,7 @@ public class Player extends Entity {
 		g.fillRect(healthBarXStart + statusBarX, healthBarYStart + statusBarY, healthWidth, healthBarHeight);
 
 		g.setColor(new Color(0, 0, 0, 200));
-		g.setFont(new Font("Purisa", Font.BOLD, 50));
+		g.setFont(LoadSave.getMinecraft_Font().deriveFont(Font.BOLD, 50));
 		g.drawString(coinsString, Game.GAME_WIDTH - (int) (150 * Game.SCALE), Game.TILES_SIZE);
 		g.drawString(timeString, Game.GAME_WIDTH - (int) (225 * Game.SCALE), Game.TILES_SIZE * 2);
 	}

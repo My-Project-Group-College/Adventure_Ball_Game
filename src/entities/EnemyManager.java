@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import gamestates.Playing;
 import levels.Level;
+import main.Game;
 import utilities.Constants;
 import utilities.LoadSave;
 import static utilities.Constants.EnemyConstants.*;
@@ -49,8 +50,10 @@ public class EnemyManager {
 				g.drawImage(babluArr[b.getState()][b.getAnimIndex()],
 						(int) b.getHitbox().x - xLvlOffset - BABLU_DRAWOFFSET_X,
 						(int) b.getHitbox().y - yLvlOffset - BABLU_DRAWOFFSET_Y, BABLU_WIDTH, BABLU_HEIGHT, null);
-				b.drawHitbox(g, xLvlOffset, yLvlOffset);
-				b.drawAttackBox(g, xLvlOffset, yLvlOffset);
+				if (Game.getHitboxStatus()) {
+					b.drawHitbox(g, xLvlOffset, yLvlOffset);
+					b.drawAttackBox(g, xLvlOffset, yLvlOffset);
+				}
 			}
 	}
 

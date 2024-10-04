@@ -74,7 +74,8 @@ public class ObjectManager {
 		for (Spike s : spikes) {
 			g.drawImage(spikeImg, (int) (s.getHitbox().x - s.getXOffset() - xLvlOffset),
 					(int) (s.getHitbox().y - s.getYOffset() - yLvlOffset), Game.TILES_SIZE, Game.TILES_SIZE, null);
-			s.drawHitbox(g, xLvlOffset, yLvlOffset);
+			if (Game.getHitboxStatus())
+				s.drawHitbox(g, xLvlOffset, yLvlOffset);
 		}
 	}
 
@@ -84,7 +85,8 @@ public class ObjectManager {
 				g.drawImage(coinImg, (int) (c.hitbox.x + c.getXOffset() - xLvlOffset),
 						(int) (c.hitbox.y + c.getYOffset() - yLvlOffset), (int) (Game.TILES_SIZE * 0.725),
 						(int) (Game.TILES_SIZE * 0.725), null);
-				c.drawHitbox(g, xLvlOffset, yLvlOffset);
+				if (Game.getHitboxStatus())
+					c.drawHitbox(g, xLvlOffset, yLvlOffset);
 			}
 	}
 

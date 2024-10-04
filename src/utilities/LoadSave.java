@@ -1,5 +1,8 @@
 package utilities;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +13,10 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 
 public class LoadSave {
+
+	public static Font Minecraft_Font;
+	public static GraphicsEnvironment graphics_Environment;
+
 	public static final String PLAYER_ATLAS = "/sprites/playerSprite.png";
 	public static final String LEVEL_ATLAS = "/sprites/ground_sprites.png";
 	public static final String LEVEL_ONE_DATA = "/lvls/lvl1_data.png";
@@ -29,6 +36,7 @@ public class LoadSave {
 	public static final String COIN_IMG = "/objectNcoin/coin.png";
 	public static final String SPIKES_IMG = "/objectNcoin/spikes.png";
 	public static final String DEATH_SCREEN = "/MenusAndBars/death_screen.png";
+	public static final String MINECRAFT_FONT_FILE = "";
 
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;
@@ -85,4 +93,20 @@ public class LoadSave {
 			}
 		return imgs;
 	}
+
+	public static void CustomFontLoad() {
+		try {
+			Minecraft_Font = Font.createFont(Font.TRUETYPE_FONT, new File("minecraft_font.ttf"));
+			graphics_Environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			graphics_Environment.registerFont(Minecraft_Font);
+		} catch (IOException | FontFormatException e) {
+			System.out.println("Error While Loading Font !");
+			e.printStackTrace();
+		}
+	}
+
+	public static Font getMinecraft_Font() {
+		return Minecraft_Font;
+	}
+
 }

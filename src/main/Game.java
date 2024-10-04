@@ -1,14 +1,20 @@
 package main;
 
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.IOException;
 
 import gamestates.GameOptions;
 import gamestates.GameState;
 import gamestates.Menu;
 import gamestates.Playing;
 import ui.AudioOptions;
+import utilities.LoadSave;
 
 public class Game implements Runnable {
 	private GameWindow gameWindow;
@@ -32,9 +38,11 @@ public class Game implements Runnable {
 	public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
 	public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
 	public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
+	public final static boolean HITBOX_STATUS = false;
 
 	public Game() {
 		initClasses();
+		LoadSave.CustomFontLoad();
 
 		gamePanel = new GamePanel(this);
 		gameWindow = new GameWindow(gamePanel);
@@ -151,6 +159,10 @@ public class Game implements Runnable {
 
 	public AudioOptions getAudioOptions() {
 		return audioOptions;
+	}
+
+	public static boolean getHitboxStatus() {
+		return HITBOX_STATUS;
 	}
 
 }
