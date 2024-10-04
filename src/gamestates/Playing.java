@@ -28,7 +28,6 @@ public class Playing extends State implements StateMethods {
 	private GameOverOverlay gameOverOverlay;
 	private LevelCompletedOverlay levelCompletedOverlay;
 	private boolean paused = false;
-	private boolean test = true;
 
 	private int xLvlOffset, yLvlOffset;
 	private int leftBorder = (int) (0.2 * Game.GAME_WIDTH);
@@ -200,6 +199,20 @@ public class Playing extends State implements StateMethods {
 		levelManager.getCurrentLevel().reset();
 	}
 
+	public void gameCompleted() {
+		totalCoinCollected = 0;
+		totalTimeUsed = 0;
+		gameOver = false;
+		paused = false;
+		levelCompleted = false;
+		levelManager.gameCompleted();
+		enemyManager.gameCompleted();
+		objectManager.gameCompleted();
+		player.loadLvlData(levelManager.getCurrentLevel().getLvlData());
+		player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
+		player.resetAll();
+	}
+
 	public void setGameOver(boolean gameOver) {
 		this.gameOver = gameOver;
 	}
@@ -296,7 +309,7 @@ public class Playing extends State implements StateMethods {
 
 			// For Testing Purposes
 			case KeyEvent.VK_T:
-				if (test) {
+				if (Game.TEST) {
 					System.out.println("Total Time: " + totalTimeUsed);
 					System.out.println("Total Coins: " + totalCoinCollected);
 					System.out.println("Current Time Used: " + levelManager.getCurrentLevel().getTimePassed());
@@ -304,7 +317,7 @@ public class Playing extends State implements StateMethods {
 				}
 				break;
 			case KeyEvent.VK_G:
-				if (test) {
+				if (Game.TEST) {
 					levelCompleted = true;
 				}
 				break;

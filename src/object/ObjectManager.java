@@ -98,4 +98,9 @@ public class ObjectManager {
 
 	}
 
+	public void gameCompleted() {
+		loadObjects(playing.getLevelManager().getCurrentLevel());
+		resetAllObjects();
+	}
+
 }

@@ -63,6 +63,7 @@ public class Level {
 	public void reset() {
 		timePassed = 0;
 		coinsCollected = 0;
+		calcPlayerSpawn();
 	}
 
 	private void createEnimies() {

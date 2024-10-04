@@ -32,7 +32,8 @@ public class LoadSave {
 	public static final String LVL2_BACKGROUND = "/backgrounds/Background_2.png";
 	public static final String BABLU_SPRITE = "/sprites/BabluEnemySprite.png";
 	public static final String STATUS_BAR = "/MenusAndBars/health_power_bar.png";
-	public static final String COMPLETED_IMG = "/MenusAndBars/completed_sprite.png";
+	public static final String GAME_COMPLETED_IMG = "/MenusAndBars/game_completed_sprite.png";
+	public static final String LEVEL_COMPLETED_IMG = "/MenusAndBars/completed_sprite.png";
 	public static final String COIN_IMG = "/objectNcoin/coin.png";
 	public static final String SPIKES_IMG = "/objectNcoin/spikes.png";
 	public static final String DEATH_SCREEN = "/MenusAndBars/death_screen.png";

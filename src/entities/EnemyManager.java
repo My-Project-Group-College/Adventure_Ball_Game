@@ -84,4 +84,9 @@ public class EnemyManager {
 
 	}
 
+	public void gameCompleted() {
+		loadEnemies(playing.getLevelManager().getCurrentLevel());
+		resetAllEnemies();
+	}
+
 }

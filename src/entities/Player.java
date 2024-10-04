@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
 
 import audio.AudioPlayer;
 import gamestates.Playing;
-import levels.LevelManager;
 
 import static utilities.Constants.PlayerConstants.*;
 import static utilities.Constants.*;
@@ -94,7 +93,8 @@ public class Player extends Entity {
 		updateHealthBar();
 		updateDashCooldownBar();
 
-		if (currHealth <= 0) {
+		if (currHealth <= 0 || playing.getLevelManager().getCurrentLevel().getTimePassed() >= playing.getLevelManager()
+				.getCurrentLevel().getTotalTime()) {
 			playing.setGameOver(true);
 			playing.getGame().getAudioPlayer().stopSong();
 			playing.getGame().getAudioPlayer().playEffect(AudioPlayer.GAMEOVER);

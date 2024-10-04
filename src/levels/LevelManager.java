@@ -34,15 +34,9 @@ public class LevelManager {
 		game.getPlaying().addCoinsToTotal(getCurrentLevel().getCoinsCollected());
 		game.getPlaying().addTimeToTotal(getCurrentLevel().getTimePassed());
 		lvlIndex++;
-		if (lvlIndex >= levels.size()) {
-			// Game Completed Here
+		if (lvlIndex >= levels.size())
 			lvlIndex = 0;
-			System.out.println("Game Completed");
-			System.out.println("Coins: " + game.getPlaying().getTotalCoinCollected());
-			System.out.println("Time: " + game.getPlaying().getTotalTimeUsed() / 1000 + " Secs");
-			game.getAudioPlayer().lvlCompleted();
-			game.getPlaying().setGameState(GameState.MENU);
-		}
+		
 		Level newLevel = levels.get(lvlIndex);
 		game.getPlaying().getEnemyManager().loadEnemies(newLevel);
 		game.getPlaying().getPlayer().loadLvlData(newLevel.getLvlData());
@@ -83,6 +77,7 @@ public class LevelManager {
 	}
 
 	public void gameCompleted() {
+		lvlIndex = 0;
 		for (Level l : levels)
 			l.reset();
 

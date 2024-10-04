@@ -17,11 +17,13 @@ public class LevelCompletedOverlay {
 	private URMButton menu, next;
 	private BufferedImage img;
 	private int bgX, bgY, bgW, bgH;
+	private GameCompletedOverlay gameCompletedOverlay;
 
 	public LevelCompletedOverlay(Playing playing) {
 		this.playing = playing;
 		initImg();
 		initButtons();
+		gameCompletedOverlay = new GameCompletedOverlay(playing);
 	}
 
 	private void initButtons() {
@@ -33,7 +35,7 @@ public class LevelCompletedOverlay {
 	}
 
 	private void initImg() {
-		img = LoadSave.GetSpriteAtlas(LoadSave.COMPLETED_IMG);
+		img = LoadSave.GetSpriteAtlas(LoadSave.LEVEL_COMPLETED_IMG);
 		bgW = (int) (img.getWidth() * Game.SCALE);
 		bgH = (int) (img.getHeight() * Game.SCALE);
 		bgX = Game.GAME_WIDTH / 2 - bgW / 2;
@@ -41,6 +43,10 @@ public class LevelCompletedOverlay {
 	}
 
 	public void draw(Graphics g) {
+		if (playing.getLevelManager().getLvlIndex() >= playing.getLevelManager().getAmountOfLevels() - 1) {
+			gameCompletedOverlay.draw(g);
+			return;
+		}
 		g.setColor(new Color(0, 0, 0, 200));
 		g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
 
@@ -50,6 +56,10 @@ public class LevelCompletedOverlay {
 	}
 
 	public void update() {
+		if (playing.getLevelManager().getLvlIndex() >= playing.getLevelManager().getAmountOfLevels() - 1) {
+			gameCompletedOverlay.update();
+			return;
+		}
 		next.update();
 		menu.update();
 	}
@@ -59,6 +69,10 @@ public class LevelCompletedOverlay {
 	}
 
 	public void mouseMoved(MouseEvent e) {
+		if (playing.getLevelManager().getLvlIndex() >= playing.getLevelManager().getAmountOfLevels() - 1) {
+			gameCompletedOverlay.mouseMoved(e);
+			return;
+		}
 		next.setMouseOver(false);
 		menu.setMouseOver(false);
 
@@ -69,6 +83,10 @@ public class LevelCompletedOverlay {
 	}
 
 	public void mouseReleased(MouseEvent e) {
+		if (playing.getLevelManager().getLvlIndex() >= playing.getLevelManager().getAmountOfLevels() - 1) {
+			gameCompletedOverlay.mouseReleased(e);
+			return;
+		}
 		if (isIn(menu, e)) {
 			if (menu.isMousePressed()) {
 				playing.resetAll();
@@ -84,6 +102,10 @@ public class LevelCompletedOverlay {
 	}
 
 	public void mousePressed(MouseEvent e) {
+		if (playing.getLevelManager().getLvlIndex() >= playing.getLevelManager().getAmountOfLevels() - 1) {
+			gameCompletedOverlay.mousePressed(e);
+			return;
+		}
 		if (isIn(menu, e))
 			menu.setMousePressed(true);
 		else if (isIn(next, e))
