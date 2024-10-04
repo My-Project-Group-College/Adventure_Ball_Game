@@ -27,6 +27,7 @@ public class LoadSave {
 	public static final String COMPLETED_IMG = "/MenusAndBars/completed_sprite.png";
 	public static final String COIN_IMG = "/objectNcoin/coin.png";
 	public static final String SPIKES_IMG = "/objectNcoin/spikes.png";
+	public static final String DEATH_SCREEN = "/MenusAndBars/death_screen.png";
 
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;

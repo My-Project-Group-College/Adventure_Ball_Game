@@ -14,8 +14,6 @@ public class LevelManager {
 	private ArrayList<Level> levels;
 	private int lvlIndex = 0;
 	private BufferedImage[] bg;
-	private int totalTime, timePassed;
-	private int coinsCollected;
 
 	public LevelManager(Game game) {
 		this.game = game;
@@ -23,7 +21,7 @@ public class LevelManager {
 		levels = new ArrayList<Level>();
 		loadBackgrounds();
 		buildAllLevels();
-		totalTime = 180000;
+
 	}
 
 	private void loadBackgrounds() {
@@ -33,15 +31,14 @@ public class LevelManager {
 	}
 
 	public void loadNextLevel() {
-		game.getPlaying().addCoinsToTotal(coinsCollected);
-		coinsCollected = 0;
-		timePassed = 0;
+		game.getPlaying().addCoinsToTotal(getCurrentLevel().getCoinsCollected());
+		game.getPlaying().addTimeToTotal(getCurrentLevel().getTimePassed());
 		lvlIndex++;
 		if (lvlIndex >= levels.size()) {
 			// Game Completed Here
 			lvlIndex = 0;
 			System.out.println("Game Completed");
-			System.out.println("Coins: " + game.getPlaying().getTotalCoinColected());
+			System.out.println("Coins: " + game.getPlaying().getTotalCoinCollected());
 			System.out.println("Time: " + game.getPlaying().getTotalTimeUsed() / 1000 + " Secs");
 			GameState.state = GameState.MENU;
 		}
@@ -84,9 +81,10 @@ public class LevelManager {
 
 	}
 
-	public void resetAll() {
-		timePassed = 0;
-		coinsCollected = 0;
+	public void gameCompleted() {
+		for (Level l : levels)
+			l.reset();
+
 	}
 
 	public Level getCurrentLevel() {
@@ -95,39 +93,6 @@ public class LevelManager {
 
 	public int getAmountOfLevels() {
 		return levels.size();
-	}
-
-	public int getTotalTime() {
-		return totalTime;
-	}
-
-	public void setTotalTime(int totalTime) {
-		this.totalTime = totalTime;
-	}
-
-	public int getTimePassed() {
-		return timePassed;
-	}
-
-	public void setTimePassed(int timePassed) {
-		this.timePassed = timePassed;
-	}
-
-	public void timeTick() {
-		timePassed += 10;
-		game.getPlaying().addTimeToTotal(10);
-	}
-
-	public int timeRemaining() {
-		return totalTime - timePassed;
-	}
-
-	public void addCoinCollected() {
-		this.coinsCollected++;
-	}
-
-	public int getCoinsCollected() {
-		return coinsCollected;
 	}
 
 }

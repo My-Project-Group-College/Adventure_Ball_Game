@@ -25,6 +25,8 @@ public class Level {
 	private int maxLvlOffsetX;
 	private int maxLvlOffsetY;
 	private Point playerSpawn;
+	private int totalTime, timePassed;
+	private int coinsCollected;
 
 	public Level(BufferedImage img) {
 		this.img = img;
@@ -34,9 +36,7 @@ public class Level {
 		createSpikes();
 		calcLvlOffsets();
 		calcPlayerSpawn();
-//		// Testing Coins
-//		coins = new ArrayList<Coin>();
-//		coins.add(new Coin(32 * 6, 32 * 10));
+		totalTime = 120000;
 	}
 
 	private void createSpikes() {
@@ -58,6 +58,11 @@ public class Level {
 		maxTilesOffsetY = lvlTilesTall - Game.TILES_IN_HEIGHT;
 		maxLvlOffsetX = maxTilesOffsetX * Game.TILES_SIZE;
 		maxLvlOffsetY = maxTilesOffsetY * Game.TILES_SIZE;
+	}
+
+	public void reset() {
+		timePassed = 0;
+		coinsCollected = 0;
 	}
 
 	private void createEnimies() {
@@ -98,6 +103,38 @@ public class Level {
 
 	public ArrayList<Spike> getSpikes() {
 		return spikes;
+	}
+
+	public int getTotalTime() {
+		return totalTime;
+	}
+
+	public void setTotalTime(int totalTime) {
+		this.totalTime = totalTime;
+	}
+
+	public int getTimePassed() {
+		return timePassed;
+	}
+
+	public void setTimePassed(int timePassed) {
+		this.timePassed = timePassed;
+	}
+
+	public void timeTick() {
+		timePassed += 10;
+	}
+
+	public int timeRemaining() {
+		return totalTime - timePassed;
+	}
+
+	public void addCoinCollected() {
+		this.coinsCollected++;
+	}
+
+	public int getCoinsCollected() {
+		return coinsCollected;
 	}
 
 }

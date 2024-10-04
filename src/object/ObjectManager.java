@@ -44,7 +44,7 @@ public class ObjectManager {
 	}
 
 	public void applyCoinToPlayer() {
-		playing.getLevelManager().addCoinCollected();
+		playing.getLevelManager().getCurrentLevel().addCoinCollected();
 	}
 
 	public void loadObjects(Level newLevel) {

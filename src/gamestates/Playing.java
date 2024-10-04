@@ -28,6 +28,7 @@ public class Playing extends State implements StateMethods {
 	private GameOverOverlay gameOverOverlay;
 	private LevelCompletedOverlay levelCompletedOverlay;
 	private boolean paused = false;
+	private boolean test = true;
 
 	private int xLvlOffset, yLvlOffset;
 	private int leftBorder = (int) (0.2 * Game.GAME_WIDTH);
@@ -41,7 +42,7 @@ public class Playing extends State implements StateMethods {
 
 	private boolean gameOver;
 	private boolean levelCompleted;
-	private int totalCoinColected;
+	private int totalCoinCollected;
 	private int totalTimeUsed;
 
 	public Playing(Game game) {
@@ -52,7 +53,6 @@ public class Playing extends State implements StateMethods {
 	}
 
 	public void loadNextLevel() {
-		addCoinsToTotal(levelManager.getCoinsCollected());
 		resetAll();
 		levelManager.loadNextLevel();
 		player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
@@ -87,7 +87,7 @@ public class Playing extends State implements StateMethods {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (!paused && !gameOver && !levelCompleted && GameState.state == GameState.PLAYING)
-					levelManager.timeTick();
+					levelManager.getCurrentLevel().timeTick();
 				if (player.dashCooldown < DASH_READY)
 					player.dashCooldown += 0.015f;
 //				System.out.println(player.dashCooldown);
@@ -161,6 +161,8 @@ public class Playing extends State implements StateMethods {
 			pauseOverlay.update();
 		else if (levelCompleted)
 			levelCompletedOverlay.update();
+		else if (gameOver)
+			gameOverOverlay.update();
 		else if (!gameOver) {
 			levelManager.update();
 			objectManager.update();
@@ -193,7 +195,6 @@ public class Playing extends State implements StateMethods {
 		player.resetAll();
 		enemyManager.resetAllEnemies();
 		objectManager.resetAllObjects();
-		levelManager.resetAll();
 	}
 
 	public void setGameOver(boolean gameOver) {
@@ -232,7 +233,8 @@ public class Playing extends State implements StateMethods {
 				pauseOverlay.mousePressed(e);
 			else if (levelCompleted)
 				levelCompletedOverlay.mousePressed(e);
-		}
+		} else
+			gameOverOverlay.mousePressed(e);
 	}
 
 	@Override
@@ -242,7 +244,8 @@ public class Playing extends State implements StateMethods {
 				pauseOverlay.mouseReleased(e);
 			else if (levelCompleted)
 				levelCompletedOverlay.mouseReleased(e);
-		}
+		} else
+			gameOverOverlay.mouseReleased(e);
 	}
 
 	@Override
@@ -252,7 +255,8 @@ public class Playing extends State implements StateMethods {
 				pauseOverlay.mouseMoved(e);
 			else if (levelCompleted)
 				levelCompletedOverlay.mouseMoved(e);
-		}
+		} else
+			gameOverOverlay.mouseMoved(e);
 	}
 
 	@Override
@@ -287,6 +291,20 @@ public class Playing extends State implements StateMethods {
 				paused = !paused;
 				break;
 
+			// For Testing Purposes
+			case KeyEvent.VK_T:
+				if (test) {
+					System.out.println("Total Time: " + totalTimeUsed);
+					System.out.println("Total Coins: " + totalCoinCollected);
+					System.out.println("Current Time Used: " + levelManager.getCurrentLevel().getTimePassed());
+					System.out.println("Current Coins: " + levelManager.getCurrentLevel().getCoinsCollected());
+				}
+				break;
+			case KeyEvent.VK_G:
+				if (test) {
+					levelCompleted = true;
+				}
+				break;
 			}
 	}
 
@@ -325,7 +343,7 @@ public class Playing extends State implements StateMethods {
 	}
 
 	public void addCoinsToTotal(int coins) {
-		this.totalCoinColected += coins;
+		this.totalCoinCollected += coins;
 	}
 
 	public void addTimeToTotal(int time) {
@@ -336,8 +354,8 @@ public class Playing extends State implements StateMethods {
 		return objectManager;
 	}
 
-	public int getTotalCoinColected() {
-		return totalCoinColected;
+	public int getTotalCoinCollected() {
+		return totalCoinCollected;
 	}
 
 	public int getTotalTimeUsed() {

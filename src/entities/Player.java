@@ -121,14 +121,14 @@ public class Player extends Entity {
 	}
 
 	private void updateTime() {
-		totalTimeRemaining = playing.getLevelManager().timeRemaining();
+		totalTimeRemaining = playing.getLevelManager().getCurrentLevel().timeRemaining();
 		timeInMilli = (totalTimeRemaining % 1000) / 10;
 		timeInSecs = (totalTimeRemaining / 1000) % 60;
 		timeInMins = (totalTimeRemaining / 60000) % 60;
 	}
 
 	private void updateStrings() {
-		coinsString = "Coins: " + playing.getLevelManager().getCoinsCollected();
+		coinsString = "Coins: " + playing.getLevelManager().getCurrentLevel().getCoinsCollected();
 		timeString = String.format("Time: %02d:%02d:%02d", timeInMins, timeInSecs, timeInMilli);
 	}
 
@@ -349,6 +349,7 @@ public class Player extends Entity {
 		state = IDLE;
 		currHealth = maxHealth;
 		dashCooldown = DASH_READY;
+		dash = false;
 
 		hitbox.x = x;
 		hitbox.y = y;
