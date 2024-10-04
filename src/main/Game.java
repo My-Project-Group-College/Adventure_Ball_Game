@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 
+import audio.AudioPlayer;
 import gamestates.GameOptions;
 import gamestates.GameState;
 import gamestates.Menu;
@@ -27,6 +28,7 @@ public class Game implements Runnable {
 	private Menu menu;
 	private GameOptions gameOptions;
 	private AudioOptions audioOptions;
+	private AudioPlayer audioPlayer;
 
 	public final static int TILES_DEFAULT_SIZE = 32;
 	public final static Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
@@ -53,7 +55,8 @@ public class Game implements Runnable {
 	}
 
 	private void initClasses() {
-		audioOptions = new AudioOptions();
+		audioOptions = new AudioOptions(this);
+		audioPlayer = new AudioPlayer();
 		menu = new Menu(this);
 		playing = new Playing(this);
 		gameOptions = new GameOptions(this);
@@ -163,6 +166,10 @@ public class Game implements Runnable {
 
 	public static boolean getHitboxStatus() {
 		return HITBOX_STATUS;
+	}
+
+	public AudioPlayer getAudioPlayer() {
+		return audioPlayer;
 	}
 
 }

@@ -77,7 +77,7 @@ public class GameOptions extends State implements StateMethods {
 	public void mouseReleased(MouseEvent e) {
 		if (isIn(e, menuB)) {
 			if (menuB.isMousePressed())
-				GameState.state = GameState.MENU;
+				setGameState(GameState.MENU);
 		} else
 			audioOptions.mouseReleased(e);
 
@@ -99,7 +99,7 @@ public class GameOptions extends State implements StateMethods {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
-			GameState.state = GameState.MENU;
+			setGameState(GameState.MENU);
 	}
 
 	@Override

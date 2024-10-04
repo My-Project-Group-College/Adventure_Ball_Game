@@ -6,16 +6,15 @@ import java.awt.image.BufferedImage;
 import utilities.LoadSave;
 import static utilities.Constants.UI.VolumeButtons.*;
 
-public class VolumeButton extends PauseButton 
-{
+public class VolumeButton extends PauseButton {
 	private BufferedImage[] imgs;
 	private BufferedImage slider;
 	private int index = 0;
 	private boolean mouseOver, mousePressed;
 	private int buttonX, minX, maxX;
-	
-	public VolumeButton(int x, int y, int width, int height) 
-	{
+	private float floatValue = 0;
+
+	public VolumeButton(int x, int y, int width, int height) {
 		super(x + width / 2, y, VOLUME_B_WIDTH, height);
 		bounds.x -= VOLUME_B_WIDTH / 2;
 		buttonX = x + width / 2;
@@ -26,68 +25,69 @@ public class VolumeButton extends PauseButton
 		loadImages();
 	}
 
-	private void loadImages() 
-	{
+	private void loadImages() {
 		BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.VOLUME_BUTTONS);
 		imgs = new BufferedImage[3];
-		for(int i = 0; i < imgs.length; i++)
-			imgs[i] = temp.getSubimage(i * VOLUME_B_DEFAULT_WIDTH, 0, 
-					VOLUME_B_DEFAULT_WIDTH, VOLUME_B_DEFAULT_HEIGHT);
-		slider = temp.getSubimage(imgs.length * VOLUME_B_DEFAULT_WIDTH, 0, 
-				SLIDER_DEFAULT_WIDTH, VOLUME_B_DEFAULT_HEIGHT);
+		for (int i = 0; i < imgs.length; i++)
+			imgs[i] = temp.getSubimage(i * VOLUME_B_DEFAULT_WIDTH, 0, VOLUME_B_DEFAULT_WIDTH, VOLUME_B_DEFAULT_HEIGHT);
+		slider = temp.getSubimage(imgs.length * VOLUME_B_DEFAULT_WIDTH, 0, SLIDER_DEFAULT_WIDTH,
+				VOLUME_B_DEFAULT_HEIGHT);
 	}
 
-	public void update()
-	{
+	public void update() {
 		index = 0;
-		if(mouseOver)
+		if (mouseOver)
 			index = 1;
-		if(mousePressed)
+		if (mousePressed)
 			index = 2;
 	}
-	
-	public void draw(Graphics g)
-	{
+
+	public void draw(Graphics g) {
 		g.drawImage(slider, x, y, width, height, null);
 		g.drawImage(imgs[index], buttonX - VOLUME_B_WIDTH / 2, y, VOLUME_B_WIDTH, height, null);
 	}
-	
-	public void changeX(int x)
-	{
-		if(x < minX)
+
+	public void changeX(int x) {
+		if (x < minX)
 			buttonX = minX;
-		else if(x > maxX)
+		else if (x > maxX)
 			buttonX = maxX;
 		else
 			buttonX = x;
-		
-		
+
+		updateFloatValue();
 		bounds.x = buttonX - VOLUME_B_WIDTH / 2;
 	}
-	
-	public void resetBools()
-	{
+
+	private void updateFloatValue() {
+		float range = maxX - minX;
+		float value = buttonX - minX;
+		floatValue = value / range;
+
+	}
+
+	public void resetBools() {
 		mouseOver = false;
 		mousePressed = false;
 	}
 
-	public boolean isMouseOver() 
-	{
+	public boolean isMouseOver() {
 		return mouseOver;
 	}
 
-	public void setMouseOver(boolean mouseOver) 
-	{
+	public void setMouseOver(boolean mouseOver) {
 		this.mouseOver = mouseOver;
 	}
 
-	public boolean isMousePressed() 
-	{
+	public boolean isMousePressed() {
 		return mousePressed;
 	}
 
-	public void setMousePressed(boolean mousePressed) 
-	{
+	public void setMousePressed(boolean mousePressed) {
 		this.mousePressed = mousePressed;
+	}
+
+	public float getFloatValue() {
+		return floatValue;
 	}
 }

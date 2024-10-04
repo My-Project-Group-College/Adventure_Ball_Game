@@ -40,7 +40,8 @@ public class LevelManager {
 			System.out.println("Game Completed");
 			System.out.println("Coins: " + game.getPlaying().getTotalCoinCollected());
 			System.out.println("Time: " + game.getPlaying().getTotalTimeUsed() / 1000 + " Secs");
-			GameState.state = GameState.MENU;
+			game.getAudioPlayer().lvlCompleted();
+			game.getPlaying().setGameState(GameState.MENU);
 		}
 		Level newLevel = levels.get(lvlIndex);
 		game.getPlaying().getEnemyManager().loadEnemies(newLevel);
@@ -93,6 +94,10 @@ public class LevelManager {
 
 	public int getAmountOfLevels() {
 		return levels.size();
+	}
+
+	public int getLvlIndex() {
+		return lvlIndex;
 	}
 
 }

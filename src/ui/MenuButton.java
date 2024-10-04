@@ -82,4 +82,7 @@ public class MenuButton {
 		return rowIndex;
 	}
 
+	public GameState getState() {
+		return state;
+	}
 }

@@ -8,9 +8,7 @@ import gamestates.GameState;
 import gamestates.Playing;
 import main.Game;
 import utilities.LoadSave;
-import static utilities.Constants.UI.PauseButtons.*;
 import static utilities.Constants.UI.URMButtons.*;
-import static utilities.Constants.UI.VolumeButtons.*;
 
 public class PauseOverlay {
 	private Playing playing;
@@ -83,7 +81,7 @@ public class PauseOverlay {
 	public void mouseReleased(MouseEvent e) {
 		if (isIn(e, menuB)) {
 			if (menuB.isMousePressed()) {
-				GameState.state = GameState.MENU;
+				playing.setGameState(GameState.MENU);
 				playing.unpauseGame();
 			}
 		} else if (isIn(e, replayB)) {

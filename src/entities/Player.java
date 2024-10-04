@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+import audio.AudioPlayer;
 import gamestates.Playing;
 import levels.LevelManager;
 
@@ -95,6 +96,8 @@ public class Player extends Entity {
 
 		if (currHealth <= 0) {
 			playing.setGameOver(true);
+			playing.getGame().getAudioPlayer().stopSong();
+			playing.getGame().getAudioPlayer().playEffect(AudioPlayer.GAMEOVER);
 			return;
 		}
 
@@ -289,7 +292,7 @@ public class Player extends Entity {
 	private void jump() {
 		if (inAir)
 			return;
-
+		playing.getGame().getAudioPlayer().playEffect(AudioPlayer.JUMP);
 		inAir = true;
 		airSpeed = jumpSpeed;
 	}
