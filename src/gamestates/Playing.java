@@ -102,7 +102,7 @@ public class Playing extends State implements StateMethods {
 				if (player.dashCooldown >= DASH_READY && player.isDash()) {
 					count += 0.01;
 				}
-				if (count >= 1.5 && player.dashCooldown >= DASH_READY) {
+				if (count >= 0.9 && player.dashCooldown >= DASH_READY) {
 					player.resetDash();
 					count = 0;
 
@@ -351,8 +351,8 @@ public class Playing extends State implements StateMethods {
 				break;
 			case KeyEvent.VK_SHIFT:
 				player.setDash(false);
-//			if (player.dashCooldown == DASH_READY)
-//				player.resetDash();
+			// if (player.dashCooldown == DASH_READY)
+			// 	player.resetDash();
 				break;
 
 			}
