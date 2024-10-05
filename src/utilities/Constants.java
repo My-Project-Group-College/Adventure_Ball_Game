@@ -13,10 +13,10 @@ public class Constants {
 	public static final int SPIKE_DAMAGE = 20;
 
 	public static final Point NEW_HIGHSCORE = new Point(Game.TILES_SIZE,
-			(int) ((Game.TILES_IN_HEIGHT - 3) * Game.TILES_SIZE));
+			(int) ((Game.TILES_IN_HEIGHT - 3.6) * Game.TILES_SIZE));
 	public static final Point HIGHSCORE = new Point(Game.TILES_SIZE,
-			(int) ((Game.TILES_IN_HEIGHT - 2) * Game.TILES_SIZE));
-	public static final Point SCORE = new Point(Game.TILES_SIZE, (int) ((Game.TILES_IN_HEIGHT - 1) * Game.TILES_SIZE));
+			(int) ((Game.TILES_IN_HEIGHT - 2.4) * Game.TILES_SIZE));
+	public static final Point SCORE = new Point(Game.TILES_SIZE, (int) ((Game.TILES_IN_HEIGHT - 1.2) * Game.TILES_SIZE));
 
 	public static class EnemyConstants {
 		public static final int BABLU = 0;

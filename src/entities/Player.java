@@ -201,8 +201,8 @@ public class Player extends Entity {
 		// Coins And Time String
 		g.setColor(new Color(0, 0, 0, 200));
 		g.setFont(LoadSave.GetMinecraft_Font().deriveFont(Font.BOLD, 50));
-		g.drawString(coinsString, Game.GAME_WIDTH - (int) (150 * Game.SCALE), Game.TILES_SIZE);
-		g.drawString(timeString, Game.GAME_WIDTH - (int) (225 * Game.SCALE), Game.TILES_SIZE * 2);
+		g.drawString(coinsString, Game.GAME_WIDTH - (int) (6 * Game.TILES_SIZE), (int)(Game.TILES_SIZE * 1.2));
+		g.drawString(timeString, Game.GAME_WIDTH - (int) (10 * Game.TILES_SIZE), (int)(Game.TILES_SIZE * 2.4));
 	}
 
 	private void updateAnimationTick() {

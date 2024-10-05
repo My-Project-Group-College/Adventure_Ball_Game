@@ -59,7 +59,7 @@ public class GameCompletedOverlay {
 		if (newHighScore)
 			g.drawString("New", NEW_HIGHSCORE.x, NEW_HIGHSCORE.y);
 		g.drawString("HighScore: " + highScore, HIGHSCORE.x, HIGHSCORE.y);
-		g.drawString("Score: " + score, SCORE.x, SCORE.y);
+		g.drawString("Your Score: " + score, SCORE.x, SCORE.y);
 	}
 
 	private boolean checkAndUpdateScores() {
