@@ -18,8 +18,6 @@ import javax.imageio.ImageIO;
 
 import gamestates.Playing;
 
-import gamestates.Playing;
-
 public class LoadSave {
 
 	public static Font Minecraft_Font;
@@ -47,6 +45,7 @@ public class LoadSave {
 	public static final String DEATH_SCREEN = "/MenusAndBars/death_screen.png";
 	public static final String MINECRAFT_FONT_FILE = "minecraft_font.tff";
 	public static final String SCORES_FILE = "scores.txt";
+	public static final String ICON = "icon.png";
 
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;

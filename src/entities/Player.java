@@ -196,6 +196,8 @@ public class Player extends Entity {
 
 		// Status Bar
 		g.setColor(Color.GREEN);
+		if (dash && dashCooldown >= DASH_READY && animIndex == 2)
+			g.setColor(Color.YELLOW);
 		g.fillRect(dashBarXStart + statusBarX, dashBarYStart + statusBarY, dashWidth, dashBarHeight);
 
 		// Coins And Time String

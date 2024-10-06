@@ -32,10 +32,10 @@ public class Playing extends State implements StateMethods {
 	private boolean paused = false;
 
 	private int xLvlOffset, yLvlOffset;
-	private int leftBorder = (int) (0.2 * Game.GAME_WIDTH);
-	private int rightBorder = (int) (0.8 * Game.GAME_WIDTH);
-	private int upBorder = (int) (0.15 * Game.GAME_HEIGHT);
-	private int downBorder = (int) (0.875 * Game.GAME_HEIGHT);
+	private int leftBorder = (int) (0.3 * Game.GAME_WIDTH);
+	private int rightBorder = (int) (0.7 * Game.GAME_WIDTH);
+	private int upBorder = (int) (0.25 * Game.GAME_HEIGHT);
+	private int downBorder = (int) (0.775 * Game.GAME_HEIGHT);
 	private int maxLvlOffsetX;
 	private int maxLvlOffsetY;
 	private Timer timer;
@@ -351,8 +351,8 @@ public class Playing extends State implements StateMethods {
 				break;
 			case KeyEvent.VK_SHIFT:
 				player.setDash(false);
-			// if (player.dashCooldown == DASH_READY)
-			// 	player.resetDash();
+				if (player.dashCooldown == DASH_READY)
+					player.resetDash();
 				break;
 
 			}
