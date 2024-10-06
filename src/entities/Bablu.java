@@ -11,7 +11,7 @@ public class Bablu extends Enemy {
 
 	public Bablu(float x, float y) {
 		super(x, y, BABLU_WIDTH, BABLU_HEIGHT, BABLU);
-		initHitbox((int) (30 * 0.75), (int) (30 * 0.75));
+		initHitbox((int) (30 * 0.75), (int) (32 * 0.75));
 		initAttackBox();
 	}
 

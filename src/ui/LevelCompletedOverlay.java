@@ -120,8 +120,6 @@ public class LevelCompletedOverlay {
 		}
 		if (isIn(menu, e)) {
 			if (menu.isMousePressed()) {
-				if (checkForGameCompleted())
-					return;
 				playing.resetAll();
 				firstCheck = false;
 				playing.setGameState(GameState.MENU);
